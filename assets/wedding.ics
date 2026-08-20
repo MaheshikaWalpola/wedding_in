@@ -4,14 +4,14 @@ PRODID:-//Maheshika and Moksha//Indian Wedding//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:mnm-sangeet-reception-20261213@indian-wedding.invalid
+UID:mnm-sangeet-reception-20261213@maheshika-moksha-in.pages.dev
 DTSTAMP:20260820T000000Z
 DTSTART;TZID=Asia/Kolkata:20261213T180000
 DTEND;TZID=Asia/Kolkata:20261213T230000
 SUMMARY:Maheshika & Moksha — Sangeet & Reception 💍
 LOCATION:Tirupati\, Andhra Pradesh\, India
-DESCRIPTION:Sangeet and reception. EDIT: confirm the start time\, add the venue and the site URL.
-URL:https://EDIT-your-pages-url.pages.dev
+DESCRIPTION:Sangeet and reception. EDIT: confirm the start time and add the venue.\nAll details: https://maheshika-moksha-in.pages.dev
+URL:https://maheshika-moksha-in.pages.dev
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
