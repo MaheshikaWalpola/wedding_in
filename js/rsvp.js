@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       status.classList.add("ok");
       status.textContent =
         payload.attending === "yes"
-          ? "Thank you! We can't wait to see you on the 21st of December. ❤"
+          ? "Thank you! We can't wait to see you on the 13th of December. ❤"
           : "Thank you for letting us know — you'll be missed!";
       form.reset();
     } catch (err) {

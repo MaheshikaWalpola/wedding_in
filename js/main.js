@@ -126,7 +126,7 @@ function setupCountdown() {
   const el = document.querySelector(".countdown");
   if (!el) return;
 
-  const target = new Date("2026-12-11T10:00:00+05:30"); // EDIT: ceremony time, 11 Dec 2026 IST
+  const target = new Date("2026-12-13T18:00:00+05:30"); // EDIT: reception start time, 13 Dec 2026 IST
 
   function render() {
     let diff = Math.max(0, target - new Date());
