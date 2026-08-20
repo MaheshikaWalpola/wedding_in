@@ -1,0 +1,38 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Maheshika and Moksha//Indian Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:mnm-mehendi-haldi-20261210@indian-wedding.invalid
+DTSTAMP:20260820T000000Z
+DTSTART;TZID=Asia/Kolkata:20261210T100000
+DTEND;TZID=Asia/Kolkata:20261210T200000
+SUMMARY:Maheshika & Moksha — Mehendi & Haldi
+LOCATION:Tirupati\, Andhra Pradesh\, India
+DESCRIPTION:Mehendi and Haldi ceremonies. EDIT: add times and venue.
+END:VEVENT
+BEGIN:VEVENT
+UID:mnm-ceremony-20261211@indian-wedding.invalid
+DTSTAMP:20260820T000000Z
+DTSTART;TZID=Asia/Kolkata:20261211T100000
+DTEND;TZID=Asia/Kolkata:20261211T160000
+SUMMARY:Maheshika & Moksha — Wedding Ceremony 💍
+LOCATION:Tirupati\, Andhra Pradesh\, India
+DESCRIPTION:The wedding ceremony. EDIT: add muhurtham time and venue.
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Maheshika & Moksha's wedding is tomorrow!
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:mnm-sangeet-reception-20261213@indian-wedding.invalid
+DTSTAMP:20260820T000000Z
+DTSTART;TZID=Asia/Kolkata:20261213T180000
+DTEND;TZID=Asia/Kolkata:20261213T230000
+SUMMARY:Maheshika & Moksha — Sangeet & Reception
+LOCATION:Tirupati\, Andhra Pradesh\, India
+DESCRIPTION:Sangeet and reception. EDIT: add times and venue.
+END:VEVENT
+END:VCALENDAR
