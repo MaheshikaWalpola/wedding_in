@@ -13,16 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
    Everyone else is asked once for the 4-digit code from the invitation;
    the device remembers. Wedding-grade privacy, not bank-grade security. */
 
-const PIN_HASH = "44c59909f17c296d6f2ec4a53efac3a951add75aa67616d9c5d9d2f5fbb44f04";
+const PIN_HASH = "fe91a760983d401d9b679fb092b689488d1f46d92f3af5e9e93363326f3e8aa4"; // code 1112 — EDIT: change this and the hash if you want a different code
 
 function setupPinGate() {
   let unlocked = false;
   try {
     if (new URLSearchParams(location.search).get("g")) {
-      localStorage.setItem("mnm-key", "1");
+      localStorage.setItem("mnm-in-key", "1");
       return;
     }
-    unlocked = localStorage.getItem("mnm-key") === "1";
+    unlocked = localStorage.getItem("mnm-in-key") === "1";
   } catch (e) {
     return; // storage unavailable — never lock a guest out
   }
@@ -55,7 +55,7 @@ function setupPinGate() {
     input.value = v;
     if (v.length !== 4) return;
     if ((await sha256(v)) === PIN_HASH) {
-      try { localStorage.setItem("mnm-key", "1"); } catch (e) {}
+      try { localStorage.setItem("mnm-in-key", "1"); } catch (e) {}
       gate.classList.add("open");
       document.body.classList.remove("no-scroll");
       setTimeout(() => gate.remove(), 600);

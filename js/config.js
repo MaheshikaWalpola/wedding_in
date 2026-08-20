@@ -7,7 +7,8 @@
    ============================================================ */
 
 const CONFIG = {
-  SCRIPT_URL: "" // EDIT: paste the INDIAN Apps Script web app URL here,
+  // EDIT: paste the INDIAN Apps Script web app URL here
+  SCRIPT_URL: "",
   DEMO_MODE: true,  // stays demo until the Indian Apps Script above is deployed
 };
 
