@@ -67,7 +67,7 @@ function setupPinGate() {
     } else {
       input.value = "";
       gate.querySelector(".pin-box").classList.add("shake");
-      err.textContent = "That's not it — try the code on your invitation";
+      err.textContent = "That's not it. Try the code on your invitation";
       setTimeout(() => gate.querySelector(".pin-box").classList.remove("shake"), 500);
     }
   });
