@@ -1,6 +1,6 @@
 # Maheshika & Moksha — Tirupati wedding website
 
-A single-page, information-only site for the Indian celebrations. Auto-deploys from GitHub. No RSVP,
+A single-page, information-only site for the Indian celebrations. Auto-deploys from GitHub on every push to main; v1 and v2 are kept as tags and branches for easy rollback. No RSVP,
 no backend: plain HTML, CSS and JavaScript, hosted on Cloudflare Pages.
 
 **Live:** https://maheshika-moksha-in.pages.dev · **Code:** github.com/MaheshikaWalpola/wedding_in
@@ -16,8 +16,8 @@ no backend: plain HTML, CSS and JavaScript, hosted on Cloudflare Pages.
 
 ```
 index.html          the whole site — every section is marked with a banner comment
-css/styles.css      design tokens at the top (colours, fonts), then one block per section
-js/main.js          PIN gate, nav, scroll reveals, countdown, language tabs, garland
+css/styles.css      design system at the top (colour, type, radius, shadow, motion), then one block per section
+js/main.js          PIN gate, nav, text reveals, countdown, language tabs, garland, parallax, tilt, petals
 assets/wedding.ics  the "Add to calendar" file (reception, 5–11 PM IST)
 images/             couple photos + the MM logo set copied from ../Branding
 apps-script/Code.gs the old RSVP backend — NOT used by this site, kept for reference
@@ -42,6 +42,7 @@ Open http://localhost:8789. The PIN is **1312**; the device remembers it.
   The printed invitation says 7 PM; the site currently says 5 PM.
 - **Telugu text** — the invitation's Telugu tab was transcribed from the
   printed card. Have someone in the family read it once.
+- **Palette** — v3 (5 Sep 2026): ivory, royal blue, champagne gold, a touch of saffron. Fraunces + Manrope + Noto Serif Telugu.
 - **PIN** — change `PIN_HASH` in `js/main.js` to the SHA-256 of the new code:
   `printf '1234' | shasum -a 256`.
 
