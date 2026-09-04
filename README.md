@@ -1,6 +1,6 @@
 # Maheshika & Moksha — Tirupati wedding website
 
-A single-page, information-only site for the Indian celebrations. No RSVP,
+A single-page, information-only site for the Indian celebrations. Auto-deploys from GitHub. No RSVP,
 no backend: plain HTML, CSS and JavaScript, hosted on Cloudflare Pages.
 
 **Live:** https://maheshika-moksha-in.pages.dev · **Code:** github.com/MaheshikaWalpola/wedding_in
