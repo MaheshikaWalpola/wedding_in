@@ -70,13 +70,14 @@
       <symbol id="diya" viewBox="-26 -30 52 44">
         <path d="M-22 0Q0 16 22 0Q0-7-22 0Z" fill="#b8892e"/>
         <path d="M-22 0Q0 5 22 0" fill="none" stroke="#8f6a22" stroke-width="1"/>
-        <path d="M0-3C7-11 5-20 0-27C-5-20-7-11 0-3Z" fill="#e89b2b"/>
-        <path d="M0-5C3.5-10 3-16 0-20C-3-16-3.5-10 0-5Z" fill="#f6bd55"/>
+        <path class="flame" d="M0-3C7-11 5-20 0-27C-5-20-7-11 0-3Z" fill="#e89b2b"/>
+        <path class="flame flame-inner" d="M0-5C3.5-10 3-16 0-20C-3-16-3.5-10 0-5Z" fill="#f6bd55"/>
       </symbol>
     </defs>
   </svg>
 
   <!-- ============================================================ NAV -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
   <header class="nav" id="nav">
     <a class="brand" href="#home" aria-label="Back to top">
       <svg class="brand-icon" aria-hidden="true"><use href="#marigold"/></svg>
@@ -105,6 +106,7 @@
   <!-- ============================================================ HERO -->
   <section class="hero" id="home">
     <svg class="toran" id="toran" aria-hidden="true"></svg>
+    <canvas class="petals" id="petals" aria-hidden="true"></canvas>
     <div class="hero-inner">
       <p class="eyebrow telugu-line rise">శుభ వివాహం</p>
       <h1 class="names rise">Maheshika <span class="amp">&amp;</span> Moksha</h1>
@@ -128,12 +130,12 @@
     </div>
 
     <figure class="hero-photo rise">
-      <div class="arch arch-gold">
+      <div class="arch arch-gold" data-parallax="0.05">
         <img src="images/couple-full.jpg" alt="Maheshika and Moksha" loading="eager">
       </div>
     </figure>
 
-    <svg class="skyline" viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <svg class="skyline" data-parallax="-0.16" viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <g fill="#d9b76a" opacity="0.22">
         <use href="#gopuram" x="60"  y="70"  width="120" height="138"/>
         <use href="#gopuram" x="300" y="10"  width="170" height="196"/>
@@ -207,8 +209,8 @@
 
   <!-- ============================================================ THE COUPLE -->
   <section class="section couple" id="couple">
-    <svg class="feather feather-l" aria-hidden="true"><use href="#feather"/></svg>
-    <svg class="feather feather-r" aria-hidden="true"><use href="#feather"/></svg>
+    <svg class="feather feather-l" data-parallax="-0.1" aria-hidden="true"><use href="#feather"/></svg>
+    <svg class="feather feather-r" data-parallax="0.1" aria-hidden="true"><use href="#feather"/></svg>
     <div class="wrap">
       <p class="eyebrow center reveal">The Couple · <span class="te">వధూవరులు</span></p>
       <h2 class="center reveal">Two coastlines, one home</h2>
@@ -273,9 +275,9 @@
   <!-- ============================================================ CELEBRATIONS -->
   <section class="section celebrations" id="celebrations">
     <div class="wrap">
-      <p class="eyebrow center light reveal">The Celebrations · <span class="te">వేడుకలు</span></p>
-      <h2 class="center light reveal">Three days in December</h2>
-      <p class="center lede light reveal">The wedding itself is a small family affair on the hill. The reception on Sunday is for everyone — that is the evening we would love to share with you.</p>
+      <p class="eyebrow center reveal">The Celebrations · <span class="te">వేడుకలు</span></p>
+      <h2 class="center reveal">Three days in December</h2>
+      <p class="center lede reveal">The wedding itself is a small family affair on the hill. The reception on Sunday is for everyone — that is the evening we would love to share with you.</p>
 
       <div class="scenes">
         <article class="scene reveal">
@@ -308,7 +310,7 @@
             <p class="scene-note">No dress code. Wear whatever makes you feel like celebrating.</p>
             <div class="scene-actions">
               <a class="btn btn-gold" href="https://share.google/gsbZjnwmyEdPpLGhD" target="_blank" rel="noopener">Open in Google Maps</a>
-              <a class="btn btn-ghost light" href="assets/wedding.ics" download="Maheshika-Moksha-Reception.ics">Add to calendar</a>
+              <a class="btn btn-ghost" href="assets/wedding.ics" download="Maheshika-Moksha-Reception.ics">Add to calendar</a>
             </div>
           </div>
         </article>
@@ -403,10 +405,10 @@
     <svg class="toran toran-foot" id="toran2" aria-hidden="true"></svg>
     <div class="wrap narrow">
       <p class="te closing-te reveal">మీ రాక మాకు ఆనందం</p>
-      <h2 class="light center reveal">Your presence is our joy</h2>
+      <h2 class="center reveal">Your presence is our joy</h2>
       <p class="closing-text reveal">Two families, two countries, and one very long list of people we love. Thank you for the blessings, the phone calls, and the long journeys you are making for us. We cannot wait to see you in Tirupati.</p>
 
-      <div class="rule light reveal"><i></i><svg class="rule-mandala"><use href="#mandala"/></svg><i></i></div>
+      <div class="rule reveal"><i></i><svg class="rule-mandala"><use href="#mandala"/></svg><i></i></div>
 
       <p class="closing-names reveal">Maheshika <span class="amp">&amp;</span> Moksha</p>
       <p class="closing-with reveal">with Smt. Y. Nagalakshmi &amp; Sri Bodaka Sreenivasulu<br>and Smt. Chintha Walpola &amp; Sri Jayanatha Perera</p>

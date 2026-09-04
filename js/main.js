@@ -8,7 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLangTabs();
   drawToran(document.getElementById("toran"));
   drawToran(document.getElementById("toran2"));
+  setupProgress();
+  setupParallax();
+  setupPetals();
 });
+
+const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* ---------- PIN gate ----------
    Wedding-grade privacy: a four-digit code from the invitation,
@@ -29,6 +34,7 @@ function setupPinGate() {
   const gate = document.createElement("div");
   gate.className = "pin-gate";
   gate.innerHTML =
+    '<svg class="toran" aria-hidden="true"></svg>' +
     '<div class="pin-box">' +
     '<div class="pin-mono">M &amp; M</div>' +
     '<p class="pin-title">A Private Celebration</p>' +
@@ -38,6 +44,7 @@ function setupPinGate() {
     "</div>";
   document.body.appendChild(gate);
   document.body.classList.add("no-scroll");
+  drawToran(gate.querySelector(".toran"));
 
   const input = gate.querySelector(".pin-input");
   const err = gate.querySelector(".pin-err");
@@ -143,6 +150,13 @@ function setupCountdown() {
   const target = new Date("2026-12-13T17:00:00+05:30"); // reception, 5 PM IST, Sunday 13 December
   const f = (sel) => box.querySelector(`[data-cd="${sel}"]`);
   const pad = (n) => String(n).padStart(2, "0");
+  const set = (sel, v) => {
+    const el = f(sel);
+    if (el.textContent === String(v)) return;
+    el.textContent = v;
+    if (REDUCED) return;
+    el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick");
+  };
   function tick() {
     const diff = target - Date.now();
     if (diff <= 0) {
@@ -150,10 +164,10 @@ function setupCountdown() {
       return;
     }
     const s = Math.floor(diff / 1000);
-    f("d").textContent = Math.floor(s / 86400);
-    f("h").textContent = pad(Math.floor((s % 86400) / 3600));
-    f("m").textContent = pad(Math.floor((s % 3600) / 60));
-    f("s").textContent = pad(s % 60);
+    set("d", Math.floor(s / 86400));
+    set("h", pad(Math.floor((s % 86400) / 3600)));
+    set("m", pad(Math.floor((s % 3600) / 60)));
+    set("s", pad(s % 60));
     setTimeout(tick, 1000 - (Date.now() % 1000));
   }
   tick();
@@ -240,4 +254,112 @@ function drawToran(svg) {
   render();
   let raf;
   window.addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); });
+}
+
+
+/* ---------- Scroll progress line under the header ---------- */
+
+function setupProgress() {
+  const bar = document.getElementById("progress");
+  if (!bar) return;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+  };
+  update();
+  addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+}
+
+/* ---------- Parallax: elements with data-parallax drift relative to
+   the scroll. Negative lags behind the page, positive leads it. ---------- */
+
+function setupParallax() {
+  if (REDUCED) return;
+  const els = [...document.querySelectorAll("[data-parallax]")];
+  if (!els.length) return;
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const mid = innerHeight / 2;
+    els.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -400 || r.top > innerHeight + 400) return;
+      const d = (r.top + r.height / 2 - mid) * parseFloat(el.dataset.parallax);
+      el.style.setProperty("--py", `${d.toFixed(1)}px`);
+    });
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+  update();
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+}
+
+/* ---------- Marigold petals drifting down through the hero.
+   Runs only while the hero is on screen. ---------- */
+
+function setupPetals() {
+  const canvas = document.getElementById("petals");
+  if (!canvas || REDUCED) return;
+  const ctx = canvas.getContext("2d");
+  const COLORS = ["#e89b2b", "#f2b544", "#c9711a", "#f6bd55", "#e0891f"];
+  let W = 0, H = 0, dpr = 1, petals = [], running = false, raf = 0, last = 0;
+
+  function size() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(34, Math.max(16, W / 40)));
+    petals = Array.from({ length: n }, () => make(true));
+  }
+  function make(anywhere) {
+    const s = 5 + Math.random() * 7;
+    return {
+      x: Math.random() * W,
+      y: anywhere ? Math.random() * H : -20,
+      s, rx: s, ry: s * (0.45 + Math.random() * 0.2),
+      vy: 14 + Math.random() * 22,            // px per second
+      vx: -8 + Math.random() * 16,
+      phase: Math.random() * Math.PI * 2,
+      sway: 10 + Math.random() * 18,
+      a: Math.random() * Math.PI * 2,
+      spin: (-0.6 + Math.random() * 1.2),
+      c: COLORS[Math.floor(Math.random() * COLORS.length)],
+      o: 0.55 + Math.random() * 0.35,
+    };
+  }
+  function frame(t) {
+    if (!running) return;
+    const dt = Math.min(0.05, (t - last) / 1000 || 0.016); last = t;
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < petals.length; i++) {
+      const p = petals[i];
+      p.phase += dt * 1.4;
+      p.y += p.vy * dt;
+      p.x += (p.vx + Math.sin(p.phase) * p.sway) * dt;
+      p.a += p.spin * dt;
+      if (p.y > H + 20 || p.x < -30 || p.x > W + 30) { petals[i] = make(false); continue; }
+      ctx.save();
+      ctx.translate(p.x, p.y); ctx.rotate(p.a);
+      ctx.globalAlpha = p.o;
+      ctx.fillStyle = p.c;
+      ctx.beginPath();
+      // a petal: a pointed ellipse
+      ctx.moveTo(-p.rx, 0);
+      ctx.quadraticCurveTo(0, -p.ry * 1.6, p.rx, 0);
+      ctx.quadraticCurveTo(0, p.ry * 1.6, -p.rx, 0);
+      ctx.fill();
+      ctx.restore();
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function start() { if (running) return; running = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop() { running = false; cancelAnimationFrame(raf); }
+
+  size();
+  addEventListener("resize", () => { size(); });
+  const hero = canvas.closest(".hero");
+  new IntersectionObserver((en) => (en[0].isIntersecting && !document.hidden ? start() : stop()), { threshold: 0.05 }).observe(hero);
+  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : (hero.getBoundingClientRect().bottom > 0 && start())));
 }
