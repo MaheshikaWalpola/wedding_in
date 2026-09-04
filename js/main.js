@@ -1,28 +1,26 @@
-/* Shared behaviour: mobile nav, countdown, personalized invitation overlay. */
+/* Maheshika & Moksha — Tirupati. One page, no framework. */
 
 document.addEventListener("DOMContentLoaded", () => {
   setupPinGate();
   setupNav();
+  setupReveals();
   setupCountdown();
-  setupInvitation();
-  setupMotion();
+  setupLangTabs();
+  drawToran(document.getElementById("toran"));
+  drawToran(document.getElementById("toran2"));
 });
 
-/* ---------- Privacy gate ----------
-   Guests with a personal ?g= link walk straight in (the link is the key).
-   Everyone else is asked once for the 4-digit code from the invitation;
-   the device remembers. Wedding-grade privacy, not bank-grade security. */
+/* ---------- PIN gate ----------
+   Wedding-grade privacy: a four-digit code from the invitation,
+   remembered on the device. The hash is SHA-256 of the code. */
 
-const PIN_HASH = "fe91a760983d401d9b679fb092b689488d1f46d92f3af5e9e93363326f3e8aa4"; // code 1112 — EDIT: change this and the hash if you want a different code
+const PIN_HASH = "712dca40936b39ce670dc803736fe3735cf99311030a928de039a36f77926230"; // code 1312
+const PIN_KEY = "mnm-in-key";
 
 function setupPinGate() {
   let unlocked = false;
   try {
-    if (new URLSearchParams(location.search).get("g")) {
-      localStorage.setItem("mnm-in-key", "1");
-      return;
-    }
-    unlocked = localStorage.getItem("mnm-in-key") === "1";
+    unlocked = localStorage.getItem(PIN_KEY) === "1";
   } catch (e) {
     return; // storage unavailable — never lock a guest out
   }
@@ -32,7 +30,7 @@ function setupPinGate() {
   gate.className = "pin-gate";
   gate.innerHTML =
     '<div class="pin-box">' +
-    '<div class="pin-mono">M<span>&amp;</span>M</div>' +
+    '<div class="pin-mono">M &amp; M</div>' +
     '<p class="pin-title">A Private Celebration</p>' +
     '<p class="pin-sub">enter the code from your invitation</p>' +
     '<input class="pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-label="4 digit code" autofocus>' +
@@ -55,7 +53,7 @@ function setupPinGate() {
     input.value = v;
     if (v.length !== 4) return;
     if ((await sha256(v)) === PIN_HASH) {
-      try { localStorage.setItem("mnm-in-key", "1"); } catch (e) {}
+      try { localStorage.setItem(PIN_KEY, "1"); } catch (e) {}
       gate.classList.add("open");
       document.body.classList.remove("no-scroll");
       setTimeout(() => gate.remove(), 600);
@@ -69,151 +67,177 @@ function setupPinGate() {
   setTimeout(() => input.focus(), 100);
 }
 
-/* ---------- Scroll-driven motion: glass header + section reveals ---------- */
-
-function setupMotion() {
-  // glass header solidifies once the hero is scrolled past
-  const glass = document.querySelector(".site-header.glass");
-  if (glass) {
-    const onScroll = () => glass.classList.toggle("scrolled", window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-  }
-
-  // sections fade up as they enter the viewport (once each)
-  const revealed = document.querySelectorAll(".reveal");
-  if (!revealed.length) return;
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-    revealed.forEach((el) => el.classList.add("in"));
-    return;
-  }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("in");
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  revealed.forEach((el) => io.observe(el));
-
-  // the timeline's dotted spine draws itself as the page scrolls
-  const spine = document.querySelector(".tl2");
-  if (spine) {
-    const draw = () => {
-      const r = spine.getBoundingClientRect();
-      const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.8 - r.top) / r.height));
-      spine.querySelector(".tl2-spine span").style.setProperty("--spine", progress.toFixed(3));
-      spine.querySelector(".tl2-spine span").style.transform = `scaleY(${progress.toFixed(3)})`;
-    };
-    draw();
-    window.addEventListener("scroll", draw, { passive: true });
-  }
-}
-
-/* ---------- Mobile nav ---------- */
+/* ---------- Nav: glass header, smooth scroll with offset,
+   active-section highlight, mobile menu ---------- */
 
 function setupNav() {
-  const toggle = document.querySelector(".nav-toggle");
-  const nav = document.querySelector(".site-nav");
-  if (!toggle || !nav) return;
-  toggle.addEventListener("click", () => nav.classList.toggle("open"));
+  const nav = document.getElementById("nav");
+  const links = document.getElementById("links");
+  const burger = document.getElementById("burger");
+  const anchors = [...links.querySelectorAll("a[href^='#']")];
+  const navH = () => nav.getBoundingClientRect().height;
+
+  const onScroll = () => nav.classList.toggle("solid", window.scrollY > 24);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // every in-page link (nav, hero button, brand) scrolls with the header offset
+  document.querySelectorAll("a[href^='#']").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const id = a.getAttribute("href").slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      closeMenu();
+      const top = id === "home" ? 0 : target.getBoundingClientRect().top + window.scrollY - navH() + 1;
+      window.scrollTo({ top, behavior: "smooth" });
+      history.replaceState(null, "", "#" + id);
+    });
+  });
+
+  // highlight the section currently in view
+  const sections = anchors.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  const spy = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        anchors.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id));
+      });
+    },
+    { rootMargin: "-40% 0px -55% 0px" }
+  );
+  sections.forEach((s) => spy.observe(s));
+
+  function closeMenu() {
+    links.classList.remove("open");
+    nav.classList.remove("menu-open");
+    burger.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("no-scroll");
+  }
+  burger.addEventListener("click", () => {
+    const open = !links.classList.contains("open");
+    links.classList.toggle("open", open);
+    nav.classList.toggle("menu-open", open);
+    burger.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("no-scroll", open);
+  });
 }
 
-/* ---------- Countdown to the big day ---------- */
+/* ---------- Scroll reveals ---------- */
+
+function setupReveals() {
+  const els = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) { els.forEach((el) => el.classList.add("in")); return; }
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }),
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+  );
+  els.forEach((el, i) => { el.style.transitionDelay = `${(i % 4) * 80}ms`; io.observe(el); });
+}
+
+/* ---------- Countdown to the reception ---------- */
 
 function setupCountdown() {
-  const el = document.querySelector(".countdown");
-  if (!el) return;
-
-  const target = new Date("2026-12-13T18:00:00+05:30"); // EDIT: reception start time, 13 Dec 2026 IST
-
-  function render() {
-    let diff = Math.max(0, target - new Date());
-    const days = Math.floor(diff / 86400000);
-    const hours = Math.floor((diff % 86400000) / 3600000);
-    const mins = Math.floor((diff % 3600000) / 60000);
-    el.querySelector('[data-unit="days"]').textContent = days;
-    el.querySelector('[data-unit="hours"]').textContent = hours;
-    el.querySelector('[data-unit="mins"]').textContent = mins;
-  }
-
-  render();
-  setInterval(render, 30000);
-}
-
-/* ---------- The digital invitation card (cover + wax seal) ----------
-   The sealed cover greets every visit to the home page with a
-   personal "Hello, …"; tapping the wax seal opens it and the
-   invitation card rises out. Skipped only when arriving via the
-   site's own navigation, so browsing back to Home doesn't replay it.
-   A personalized link (?g=guestid) always opens it, with that
-   guest's name on both the cover and the card. */
-
-function setupInvitation() {
-  const overlay = document.getElementById("card-overlay");
-  if (!overlay) return;
-
-  const params = new URLSearchParams(location.search);
-  const guestId = params.get("g");
-  const previewName = params.get("name"); // ?name=… previews any greeting without the sheet
-
-  const cameFromInside = document.referrer.startsWith(location.origin);
-  if (cameFromInside && !guestId && !previewName) {
-    overlay.remove();
-    return;
-  }
-
-  const nameEl = overlay.querySelector(".inv-guest");
-  const helloEl = overlay.querySelector(".cov-hello");
-  function setGuest(hello, name) {
-    helloEl.textContent = hello;
-    helloEl.classList.toggle("long", hello.length > 20);
-    nameEl.textContent = name;
-  }
-  if (previewName) {
-    setGuest("Dear " + previewName, previewName);
-  } else if (guestId) {
-    Api.getGuest(guestId)
-      .then((result) => {
-        if (result.found) setGuest("Dear " + result.name, result.name);
-        else setGuest("Dear guest", "Dear Guest");
-      })
-      .catch(() => {
-        setGuest("Dear guest", "Dear Guest");
-      });
-  } else {
-    setGuest("Dear family & friends", "Our Family & Friends");
-  }
-
-  overlay.classList.remove("hidden");
-  document.body.classList.add("no-scroll");
-
-  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function open(e) {
-    e.stopPropagation();
-    if (overlay.classList.contains("opening")) return;
-    overlay.classList.add("opening");
-    if (reduceMotion) {
-      overlay.classList.add("risen", "presented");
+  const box = document.getElementById("countdown");
+  if (!box) return;
+  const target = new Date("2026-12-13T17:00:00+05:30"); // reception, 5 PM IST, Sunday 13 December
+  const f = (sel) => box.querySelector(`[data-cd="${sel}"]`);
+  const pad = (n) => String(n).padStart(2, "0");
+  function tick() {
+    const diff = target - Date.now();
+    if (diff <= 0) {
+      box.innerHTML = '<div style="flex:1"><b style="font-size:1.4rem">It\'s today!</b><span>see you at S.R. Convention Hall</span></div>';
       return;
     }
-    setTimeout(() => overlay.classList.add("risen"), 950);
-    setTimeout(() => overlay.classList.add("presented"), 1700);
+    const s = Math.floor(diff / 1000);
+    f("d").textContent = Math.floor(s / 86400);
+    f("h").textContent = pad(Math.floor((s % 86400) / 3600));
+    f("m").textContent = pad(Math.floor((s % 3600) / 60));
+    f("s").textContent = pad(s % 60);
+    setTimeout(tick, 1000 - (Date.now() % 1000));
   }
+  tick();
+}
 
-  function done() {
-    overlay.classList.add("leaving");
-    document.body.classList.remove("no-scroll");
-    setTimeout(() => overlay.remove(), 750);
+/* ---------- Invitation: English / Telugu ---------- */
+
+function setupLangTabs() {
+  const tabs = document.querySelectorAll(".lang-tabs button");
+  const panes = document.querySelectorAll(".lang-pane");
+  tabs.forEach((t) =>
+    t.addEventListener("click", () => {
+      const lang = t.dataset.lang;
+      tabs.forEach((b) => { const on = b === t; b.classList.toggle("on", on); b.setAttribute("aria-selected", String(on)); });
+      panes.forEach((p) => { p.hidden = p.dataset.pane !== lang; });
+    })
+  );
+}
+
+/* ---------- Toran: a marigold-and-mango-leaf garland hung across
+   the top of the hero and the closing section. Drawn to the current
+   width so the sag looks right on every screen. ---------- */
+
+function drawToran(svg) {
+  if (!svg) return;
+  const NS = "http://www.w3.org/2000/svg";
+  function render() {
+    const W = Math.max(320, svg.clientWidth || window.innerWidth);
+    const H = 96;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = "";
+
+    // the string: a gentle sag from edge to edge
+    const sag = Math.min(26, W * 0.03);
+    const string = document.createElementNS(NS, "path");
+    string.setAttribute("d", `M0 6 Q ${W / 2} ${6 + sag * 2} ${W} 6`);
+    string.setAttribute("fill", "none");
+    string.setAttribute("stroke", "#b8892e");
+    string.setAttribute("stroke-width", "1.2");
+    svg.appendChild(string);
+
+    const step = 58;
+    const n = Math.ceil(W / step) + 1;
+    for (let i = 0; i < n; i++) {
+      const x = i * step + (step / 2) * ((Math.floor(W / step) % 2) ? 0 : 1) - step / 2;
+      const t = x / W;
+      const y = 6 + 4 * sag * t * (1 - t); // point on the quadratic string
+      // outer group positions, inner group sways — the CSS animation's
+      // transform would otherwise override the positioning transform
+      const pos = document.createElementNS(NS, "g");
+      pos.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("class", "swing");
+      g.style.animationDelay = `${(i % 7) * -0.7}s`;
+      pos.appendChild(g);
+
+      // hanging thread
+      const thread = document.createElementNS(NS, "line");
+      thread.setAttribute("x1", 0); thread.setAttribute("y1", 0); thread.setAttribute("x2", 0); thread.setAttribute("y2", 30);
+      thread.setAttribute("stroke", "#b8892e"); thread.setAttribute("stroke-width", "0.9");
+      g.appendChild(thread);
+
+      // two mango leaves either side
+      const l1 = document.createElementNS(NS, "use");
+      l1.setAttribute("href", "#leaf"); l1.setAttribute("x", -22); l1.setAttribute("y", 10); l1.setAttribute("width", 24); l1.setAttribute("height", 24);
+      l1.setAttribute("transform", "rotate(35 -10 22)");
+      const l2 = document.createElementNS(NS, "use");
+      l2.setAttribute("href", "#leaf"); l2.setAttribute("x", -2); l2.setAttribute("y", 10); l2.setAttribute("width", 24); l2.setAttribute("height", 24);
+      l2.setAttribute("transform", "rotate(145 10 22) scale(1 -1) translate(0 -44)");
+      g.appendChild(l1); g.appendChild(l2);
+
+      // the marigold, alternating sizes
+      const big = i % 2 === 0;
+      const size = big ? 30 : 24;
+      const m = document.createElementNS(NS, "use");
+      m.setAttribute("href", "#marigold");
+      m.setAttribute("x", -size / 2); m.setAttribute("y", 30 + (big ? 0 : 3));
+      m.setAttribute("width", size); m.setAttribute("height", size);
+      g.appendChild(m);
+
+      svg.appendChild(pos);
+    }
   }
-
-  overlay.querySelector(".wax-seal").addEventListener("click", open);
-  overlay.querySelector(".cover").addEventListener("click", open);
-  overlay.querySelector(".inv-enter").addEventListener("click", (e) => {
-    e.stopPropagation();
-    done();
-  });
-  overlay.querySelector(".skip-link").addEventListener("click", done);
+  render();
+  let raf;
+  window.addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); });
 }

@@ -353,7 +353,7 @@ function makeGuestId(name, used) {
   }
 }
 
-var SITE_URL = 'https://maheshika-moksha.pages.dev';
+var SITE_URL = 'https://maheshika-moksha-in.pages.dev';
 
 /**
  * Writes every guest's personalized invitation link into an

@@ -1,68 +1,51 @@
-# Maheshika & Moksha — Indian Wedding Website
+# Maheshika & Moksha — Tirupati wedding website
 
-Static site (plain HTML/CSS/JS, no framework) with a Google Apps Script +
-Google Sheets backend for RSVPs, seat lookups and personalised invitation links.
+A single-page, information-only site for the Indian celebrations. No RSVP,
+no backend: plain HTML, CSS and JavaScript, hosted on Cloudflare Pages.
 
-**Tirupati, Andhra Pradesh · 10–13 December 2026**
+**Live:** https://maheshika-moksha-in.pages.dev · **Code:** github.com/MaheshikaWalpola/wedding_in
+**Sister site (Sri Lanka):** https://maheshika-moksha.pages.dev — linked from the fixed 🇱🇰 button.
 
-| Date | Event |
-|---|---|
-| Thursday 10 December | Mehendi and Haldi |
-| Friday 11 December | Wedding ceremony |
-| Sunday 13 December | Sangeet and reception |
+| Date | Event | Who |
+|---|---|---|
+| Thu 10 Dec 2026 | Mehendi & Haldi, Tirupati | close family |
+| Fri 11 Dec 2026 | Wedding — Subha Muhurtham 9:00–10:30 AM, T.T.D. Cottage, Shankumitta, Tirumala | close family |
+| Sun 13 Dec 2026 | Reception & Dinner from 5 PM, S.R. Convention Hall, Old Tiruchanoor Road, Tirupati | everyone |
 
-Seeded from the Sri Lankan site on 20 August 2026 and retargeted. It is a
-**separate project with its own repository** — not a clone of the Sri Lankan
-one — so a change to one wedding can never redeploy the other.
+## Files
 
-## It runs right now in demo mode
+```
+index.html          the whole site — every section is marked with a banner comment
+css/styles.css      design tokens at the top (colours, fonts), then one block per section
+js/main.js          PIN gate, nav, scroll reveals, countdown, language tabs, garland
+assets/wedding.ics  the "Add to calendar" file (reception, 5–11 PM IST)
+images/             couple photos + the MM logo set copied from ../Branding
+apps-script/Code.gs the old RSVP backend — NOT used by this site, kept for reference
+robots.txt          asks search engines not to index
+```
 
-`DEMO_MODE` is `true` in [js/config.js](js/config.js), so every page works with
-six sample guests and no backend:
+## Run it locally
 
 ```bash
-python3 -m http.server 8788
-# open http://localhost:8788
+python3 -m http.server 8789
 ```
 
-Try the seat finder with `Arjun Reddy` or `Priya`, or open a personalised
-invitation at `http://localhost:8788/index.html?g=arjun01`.
+Open http://localhost:8789. The PIN is **1312**; the device remembers it.
 
-## Before this goes live
+## Things you will want to change
 
-Everything still to be decided is marked `<!-- EDIT: ... -->` in the source.
-Search for `EDIT:` to find all of them. The ones that matter most:
+- **Photos** — the two "photo coming soon" arches in *The Couple* and the six in
+  *Gallery* are placeholders. Drop images into `images/` and replace each
+  `<div class="arch ph …">` with `<div class="arch"><img src="images/…" alt="…"></div>`.
+- **Reception time** — appears in four places: `index.html` (invitation card
+  and the 13 Dec scene), `js/main.js` (countdown target), `assets/wedding.ics`.
+  The printed invitation says 7 PM; the site currently says 5 PM.
+- **Telugu text** — the invitation's Telugu tab was transcribed from the
+  printed card. Have someone in the family read it once.
+- **PIN** — change `PIN_HASH` in `js/main.js` to the SHA-256 of the new code:
+  `printf '1234' | shasum -a 256`.
 
-1. **The venue.** `location.html` says "Venue to be confirmed" and the map
-   points at Tirupati generally. Change the `q=` parameter in the map iframe
-   once it is booked, and the venue lines in `index.html`.
-2. **Times.** Every time on `info.html` is a placeholder, including the
-   muhurtham. The countdown in `js/main.js` is set to 10:00 IST on 11 December
-   — correct the hour.
-3. **The RSVP deadline**, currently a placeholder in `rsvp.html` and `faq.html`.
-4. **The backend.** `js/config.js` has an empty `SCRIPT_URL`. Deploy the Apps
-   Script against the *Indian* Google Sheet, paste the URL in, and set
-   `DEMO_MODE` to `false`.
-5. **Hotels** in `location.html` are three empty placeholders.
+## Deploy
 
-## The one thing that will break both weddings if you skip it
-
-`apps-script/Code.gs` has already been changed for you:
-
-```js
-var PHOTOS_FOLDER_NAME = 'Indian Wedding Guest Photos';
-```
-
-The script finds its Drive folder **by name**, searching your whole Drive. If
-this ever goes back to `Wedding Guest Photos`, both weddings' guest uploads
-land in the same folder and each gallery shows the other's pictures.
-
-## Deploying
-
-Push to `github.com/MaheshikaWalpola/wedding_in`, then connect it as its own
-Cloudflare Pages project — framework preset **None**, no build command, output
-directory `/`.
-
-Changing `apps-script/Code.gs` is not enough to update the live backend. You
-must redeploy: **Deploy → Manage deployments → Edit → Version: New version →
-Deploy.**
+Push to `main`. Cloudflare Pages rebuilds the live site within a minute. There
+is no build step — framework preset *None*, output directory `/`.
