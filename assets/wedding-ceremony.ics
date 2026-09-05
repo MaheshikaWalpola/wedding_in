@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Maheshika and Moksha//Tirupati Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:mnm-wedding-20261211@maheshika-moksha-in.pages.dev
+DTSTAMP:20260906T000000Z
+DTSTART;TZID=Asia/Kolkata:20261211T100000
+DTEND;TZID=Asia/Kolkata:20261211T120000
+SUMMARY:Maheshika & Moksha · Wedding
+LOCATION:T.T.D. Cottage\, Shankumitta\, Tirumala\, Andhra Pradesh\, India
+DESCRIPTION:The wedding ceremony at 10 AM\, Subha Muhurtham\, with close family and friends.\nAll details: https://maheshika-moksha-in.pages.dev
+URL:https://maheshika-moksha-in.pages.dev
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Maheshika & Moksha · Wedding is tomorrow!
+END:VALARM
+END:VEVENT
+END:VCALENDAR
