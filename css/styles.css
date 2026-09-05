@@ -597,8 +597,12 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .eyebrow .te { font-size: 1.22rem; }
 .inv-sub { font-size: 1.3rem; }
 .nav-rsvp { color: var(--royal); }
-.scene-rsvp { font-family: var(--serif); font-size: 1.08rem; color: var(--ivory); margin: .2rem 0 0; }
-.scene-rsvp strong { font-weight: 500; color: var(--champagne); letter-spacing: .02em; }
+/* the RSVP panel sits between the three days and the map */
+.rsvp-panel { margin-top: 1.1rem; text-align: center; padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.2rem, 4vw, 3rem); border: 1px solid rgba(212,185,120,.6); border-radius: var(--r-card); background: linear-gradient(135deg, rgba(212,185,120,.14), rgba(255,255,255,.04)); }
+.rsvp-kicker { font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; color: var(--champagne); margin-bottom: .4rem; }
+.rsvp-date { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 300; color: var(--ivory); margin-bottom: .8rem; }
+.rsvp-date sup { font-size: .42em; vertical-align: .6em; margin-left: .05em; font-style: italic; font-weight: 400; color: var(--champagne); }
+.rsvp-text { color: rgba(250,246,238,.82); max-width: 560px; margin: 0 auto 1.4rem; text-wrap: balance; }
 /* corner strands: three lanes on wide screens, a single short one at each top corner on phones and tablets */
 @media (max-width: 1440px) {
   .strands { display: block; width: 64px; height: min(34vh, 300px); top: calc(var(--nav-h) - 6px); }
