@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCountdown();
   setupLangTabs();
   drawToran(document.getElementById("toran"));
+  drawStrands(document.getElementById("strands-l"));
+  drawStrands(document.getElementById("strands-r"));
   setupProgress();
   setupParallax();
   setupTilt();
@@ -313,61 +315,100 @@ function setupLangTabs() {
   });
 }
 
-/* ---------- Toran: a marigold-and-mango-leaf garland, drawn to the
-   current width so the sag looks right on every screen ---------- */
+/* ---------- Toran: banana-leaf fronds and hanging jasmine strands along a string
+   across the top of the hero, redrawn to the current width ---------- */
+
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+const use = (id, x, y, size, extra) => el("use", Object.assign({ href: "#" + id, x: x - size / 2, y, width: size, height: size }, extra || {}));
+const pick = (i, a, b) => a + ((i * 37) % 5) * ((b - a) / 4); // deterministic "random" spread per index
+
+/* a hanging jasmine strand: thread + alternating jasmine and marigold beads, a jasmine at the tip */
+function strand(g, len, scale) {
+  g.appendChild(el("line", { x1: 0, y1: 0, x2: 0, y2: len, stroke: "#b8963f", "stroke-width": 0.8 }));
+  const stepY = 9 * scale;
+  for (let y = 5 * scale, k = 0; y < len - 4; y += stepY, k++) {
+    g.appendChild(k % 2 === 0 ? use("jasmine", 0, y - 4.5 * scale, 9 * scale) : use("bead", 0, y - 2.75 * scale, 5.5 * scale));
+  }
+  g.appendChild(use("jasmine", 0, len - 5.5 * scale, 11 * scale));
+}
 
 function drawToran(svg) {
   if (!svg) return;
-  const NS = "http://www.w3.org/2000/svg";
-  let drawnW = 0;
+  let lastW = 0;
   function render() {
-    if (!svg.isConnected) return; // the gate's garland is gone with the gate
+    if (!svg.isConnected) return;
     const W = Math.max(320, svg.clientWidth || window.innerWidth);
-    if (W === drawnW) return; // height-only resizes (mobile URL bar) change nothing here
-    drawnW = W;
-    const H = 90;
+    if (W === lastW) return;
+    lastW = W;
+    const compact = W < 700;
+    const H = compact ? 150 : 190;
+    const scale = compact ? 0.85 : 1;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
     svg.innerHTML = "";
-    const sag = Math.min(24, W * 0.028);
-    const string = document.createElementNS(NS, "path");
-    string.setAttribute("d", `M0 6 Q ${W / 2} ${6 + sag * 2} ${W} 6`);
-    string.setAttribute("fill", "none"); string.setAttribute("stroke", "#b8963f"); string.setAttribute("stroke-width", "1.1");
-    svg.appendChild(string);
-    const step = 62;
+    const sag = Math.min(22, W * 0.026);
+    svg.appendChild(el("path", { d: `M0 8 Q ${W / 2} ${8 + sag * 2} ${W} 8`, fill: "none", stroke: "#b8963f", "stroke-width": 1.1 }));
+    svg.appendChild(el("path", { d: `M0 12 Q ${W / 2} ${12 + sag * 2.2} ${W} 12`, fill: "none", stroke: "#d4b978", "stroke-width": 0.7 }));
+    const step = compact ? 54 : 74;
     const n = Math.ceil(W / step) + 1;
     for (let i = 0; i < n; i++) {
       const x = i * step - step / 2;
       const t = x / W;
-      const y = 6 + 4 * sag * t * (1 - t);
-      const pos = document.createElementNS(NS, "g");
-      pos.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
-      const g = document.createElementNS(NS, "g");
-      g.setAttribute("class", "swing");
-      g.style.animationDelay = `${(i % 7) * -0.7}s`;
+      const y = 10 + 4 * sag * t * (1 - t);
+      const pos = el("g", { transform: `translate(${x.toFixed(1)} ${y.toFixed(1)})` });
+      const g = el("g", { class: "swing" });
+      g.style.animationDelay = `${(i % 7) * -0.9}s`;
       pos.appendChild(g);
-      const thread = document.createElementNS(NS, "line");
-      thread.setAttribute("x1", 0); thread.setAttribute("y1", 0); thread.setAttribute("x2", 0); thread.setAttribute("y2", 28);
-      thread.setAttribute("stroke", "#b8963f"); thread.setAttribute("stroke-width", "0.8");
-      g.appendChild(thread);
-      const l1 = document.createElementNS(NS, "use");
-      l1.setAttribute("href", "#leaf"); l1.setAttribute("x", -21); l1.setAttribute("y", 9); l1.setAttribute("width", 22); l1.setAttribute("height", 22);
-      l1.setAttribute("transform", "rotate(35 -10 20)");
-      const l2 = document.createElementNS(NS, "use");
-      l2.setAttribute("href", "#leaf"); l2.setAttribute("x", -1); l2.setAttribute("y", 9); l2.setAttribute("width", 22); l2.setAttribute("height", 22);
-      l2.setAttribute("transform", "rotate(145 10 20) scale(1 -1) translate(0 -40)");
-      g.appendChild(l1); g.appendChild(l2);
-      const big = i % 2 === 0;
-      const size = big ? 26 : 21;
-      const m = document.createElementNS(NS, "use");
-      m.setAttribute("href", "#marigold");
-      m.setAttribute("x", -size / 2); m.setAttribute("y", 28 + (big ? 0 : 3));
-      m.setAttribute("width", size); m.setAttribute("height", size);
-      g.appendChild(m);
+      if (i % 3 === 0) {
+        // a pair of banana-leaf fronds with a small jasmine knot at the string
+        const lh = (compact ? 66 : 96) * scale;
+        g.appendChild(el("use", { href: "#bleaf", x: -7, y: 0, width: 14, height: lh, transform: "rotate(-10 0 0)" }));
+        g.appendChild(el("use", { href: "#bleaf", x: -7, y: 0, width: 14, height: lh, transform: "rotate(10 0 0)" }));
+        g.appendChild(use("jasmine", -4, -3, 9 * scale)); g.appendChild(use("jasmine", 4, -1, 8 * scale)); g.appendChild(use("bead", 0, 5, 5 * scale));
+      } else {
+        strand(g, pick(i, compact ? 44 : 64, compact ? 96 : 150) * scale, scale);
+      }
       svg.appendChild(pos);
     }
   }
   render();
-  let raf = 0;
+  let raf;
+  window.addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); });
+}
+
+/* ---------- Side strands: three jasmine strands flowing down each edge of the hero (wide screens) ---------- */
+
+function drawStrands(svg) {
+  if (!svg) return;
+  let lastH = 0;
+  function render() {
+    if (!svg.isConnected || !svg.clientHeight) return;
+    const H = svg.clientHeight, W = 130;
+    if (H === lastH) return;
+    lastH = H;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = "";
+    const lanes = [[26, 0.58], [62, 0.9], [100, 0.72]];
+    lanes.forEach(([x, f], j) => {
+      const len = H * f;
+      const pos = el("g", { transform: `translate(${x} 0)` });
+      const g = el("g", { class: "swing" });
+      g.style.animationDelay = `${j * -2.1}s`;
+      pos.appendChild(g);
+      // a gently curving thread
+      g.appendChild(el("path", { d: `M0 0 C ${j % 2 ? 10 : -10} ${len * 0.35}, ${j % 2 ? -8 : 8} ${len * 0.7}, 0 ${len}`, fill: "none", stroke: "#b8963f", "stroke-width": 0.8 }));
+      if (j === 1) { g.appendChild(el("use", { href: "#bleaf", x: -7, y: 0, width: 14, height: 110, transform: "rotate(-6 0 0)" })); }
+      for (let y = 14, k = 0; y < len - 6; y += 10, k++) {
+        const dx = (j % 2 ? 1 : -1) * Math.sin((y / len) * Math.PI) * 9;
+        if (k % 5 === 4) g.appendChild(el("use", { href: "#leaf", x: dx - 2, y: y - 4, width: 15, height: 15, transform: `rotate(${k % 2 ? 110 : 70} ${dx + 5} ${y + 3})` }));
+        else g.appendChild(k % 2 === 0 ? use("jasmine", dx, y - 4.5, 9) : use("bead", dx, y - 2.75, 5.5));
+      }
+      g.appendChild(use("jasmine", 0, len - 6, 12));
+      svg.appendChild(pos);
+    });
+  }
+  render();
+  let raf;
   window.addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); });
 }
 

@@ -42,7 +42,7 @@ Open http://localhost:8789. The PIN is **1312**; the device remembers it.
   The printed invitation says 7 PM; the site currently says 5 PM.
 - **Telugu text** — the invitation's Telugu tab was transcribed from the
   printed card. Have someone in the family read it once.
-- **Palette** — v3 (5 Sep 2026): ivory, royal blue, champagne gold, a touch of saffron. Fraunces + Manrope + Noto Serif Telugu.
+- **Palette** — v3 (5 Sep 2026): ivory, royal blue, champagne gold, a touch of saffron. Bodoni Moda + Manrope + Noto Serif Telugu (5 Sep 2026, evening pass).
 - **PIN** — change `PIN_HASH` in `js/main.js` to the SHA-256 of the new code:
   `printf '1234' | shasum -a 256`.
 

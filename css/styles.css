@@ -2,7 +2,7 @@
    Maheshika & Moksha · Tirupati
    Design system
    · colour: ivory ground, royal blue, champagne gold, a whisper of saffron
-   · type: Fraunces (editorial serif) + Manrope (text) + Noto Serif Telugu
+   · type: Bodoni Moda (high-contrast editorial serif) + Manrope (text) + Noto Serif Telugu
    · radius: 999 (pills) / 22 (cards) / 12 (small) / 6 (tiny)
    · shadow: three levels, always warm-tinted
    · motion: one easing, three durations (fast .25s, base .6s, slow 1s)
@@ -31,7 +31,7 @@
   --ink-soft: #4f463c;
   --ink-mute: #70675c;         /* deepened from #857b6d so small muted text passes 4.5:1 on cream */
 
-  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
   --sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
   --telugu: "Noto Serif Telugu", "Gautami", serif;
 
@@ -42,7 +42,7 @@
   --sh-deep: 0 30px 60px rgba(0,0,0,.3);   /* the one shadow used on the deep blue sections */
   --foil: rgba(212,185,120,.55);            /* champagne hairline where ivory meets deep blue */
   /* Fraunces optical sizes: display (names, big numerals) / headline (h2, invitation names) / small (h3, h4, brand) */
-  --opsz-display: "opsz" 144; --opsz-head: "opsz" 96; --opsz-small: "opsz" 48;
+  --opsz-display: "opsz" 96; --opsz-head: "opsz" 72; --opsz-small: "opsz" 24;
   --ease: cubic-bezier(.2,.7,.2,1);
   --t-fast: .25s; --t-base: .6s; --t-slow: 1s;
 
@@ -140,7 +140,7 @@ ul.plain li:last-child { border-bottom: 0; }
 .nav.solid { background: rgba(250,246,238,.84); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); box-shadow: 0 1px 0 rgba(184,150,63,.25); }
 .brand { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
 .brand-mark { font-family: var(--serif); font-size: 1.5rem; font-weight: 300; letter-spacing: .02em; color: var(--ink); font-variation-settings: var(--opsz-small); transition: color var(--t-fast); }
-.brand-mark i { font-style: italic; color: var(--gold-deep); margin: 0 .04em; }
+.brand-mark i { font-style: normal; color: var(--gold-deep); margin: 0 .08em; }
 .brand:hover .brand-mark { color: var(--royal); }
 .links { display: flex; gap: clamp(.9rem, 2vw, 1.9rem); }
 .links a {
@@ -205,7 +205,7 @@ ul.plain li:last-child { border-bottom: 0; }
 .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 55%, var(--ivory) 92%); }
 .hero-inner { position: relative; z-index: 2; order: 1; }
 .hero-photo { position: relative; z-index: 2; order: 2; margin: 0; justify-self: center; width: min(100%, 440px); }
-.toran { position: absolute; top: calc(var(--nav-h) - 18px); left: 50%; transform: translateX(-50%); width: 100vw; height: 90px; z-index: 3; pointer-events: none; }
+.toran { position: absolute; top: calc(var(--nav-h) - 12px); left: 50%; transform: translateX(-50%); width: 100vw; height: 190px; z-index: 3; pointer-events: none; }
 .petals { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 .hero .eyebrow { margin-bottom: 1.4rem; }
 .hero .eyebrow .te { font-size: 1.05rem; }
@@ -213,7 +213,7 @@ ul.plain li:last-child { border-bottom: 0; }
 .names { font-family: var(--serif); font-weight: 300; font-variation-settings: var(--opsz-display); font-size: clamp(3.2rem, 7.2vw, 6rem); line-height: .98; letter-spacing: -.02em; color: var(--ink); margin: 0; display: flex; flex-direction: column; }
 .names .line { display: block; }
 .names .amp-line { line-height: .8; margin: .06em 0; }
-.names .amp { font-style: italic; font-weight: 300; color: var(--gold-deep); font-size: .72em; padding-left: .12em; }
+.names .amp { font-style: normal; font-weight: 400; color: var(--gold-deep); font-size: .62em; padding-left: .1em; }
 .names-te { font-family: var(--telugu); font-weight: 500; font-size: clamp(1.25rem, 2vw, 1.6rem); color: var(--royal); margin: .8rem 0 0; }
 .hero-lead { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1.15rem, 1.8vw, 1.4rem); color: var(--ink-soft); margin: .9rem 0 1.5rem; max-width: 30ch; font-variation-settings: "opsz" 30; }
 
@@ -282,7 +282,7 @@ ul.plain li:last-child { border-bottom: 0; }
 .te-pane .inv-bless { font-family: var(--telugu); letter-spacing: .04em; font-size: 1.05rem; }
 .inv-diya { width: 46px; height: 40px; margin: 0 auto 1.2rem; display: block; }
 .inv-hosts { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.45rem); color: var(--ink); margin-bottom: 1.2rem; line-height: 1.35; font-variation-settings: var(--opsz-small); text-wrap: balance; }
-.inv-hosts em, .inv-line em { font-style: italic; color: var(--gold-deep); }
+.inv-hosts em, .inv-line em { font-style: normal; color: var(--gold-deep); }
 .inv-hosts small, .inv-line small { display: block; font-family: var(--sans); font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-mute); margin-top: .3rem; font-weight: 600; }
 .te-pane .inv-hosts small, .te-pane .inv-line small { font-family: var(--telugu); text-transform: none; letter-spacing: .02em; font-size: .9rem; font-weight: 500; }
 .inv-line { color: var(--ink-soft); font-size: 1rem; line-height: 1.7; margin-bottom: 1rem; }
@@ -330,9 +330,9 @@ ul.plain li:last-child { border-bottom: 0; }
 
 /* ============================================================ CINEMATIC BAND */
 /* the caption sits in the lower third, like a title card, so the faces above it stay clear */
-.band { position: relative; min-height: 66vh; display: grid; place-items: end center; overflow: hidden; background: var(--royal-ink); color: var(--ivory); text-align: center; padding: 9rem var(--gutter) 5rem; }
+.band { position: relative; min-height: 46vh; display: grid; place-items: center; overflow: hidden; background: var(--royal-ink); color: var(--ivory); text-align: center; padding: 9rem var(--gutter) 5rem; }
 .band-img { position: absolute; inset: -12% 0; transform: translateY(var(--py, 0px)); will-change: transform; }
-.band-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; opacity: .55; filter: saturate(.8) blur(1.5px); transform: scale(1.04); }
+.band-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 24%; opacity: .6; filter: saturate(.85) blur(1px); transform: scale(1.04); }
 .band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,29,79,.5), rgba(13,29,79,.15) 40%, rgba(13,29,79,.82)); }
 .band-text { position: relative; z-index: 2; max-width: 820px; }
 .band-text p { font-family: var(--serif); font-weight: 300; font-style: italic; font-size: clamp(1.5rem, 3.2vw, 2.4rem); line-height: 1.3; margin-bottom: 1.2rem; text-shadow: 0 2px 30px rgba(0,0,0,.35); font-variation-settings: var(--opsz-head); text-wrap: balance; }
@@ -552,4 +552,39 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
   /* body-sized copy never drops below 16px on phones */
   .small, .cd-label, .inv-bless, .inv-grid p, .te-pane .inv-hosts small, .te-pane .inv-line small, .scene h3 small, .ritual p,
   ul.hotels small, .contact small, .closing-with, .foot a, .lang-tabs button[lang="te"], .person-role .te { font-size: 1rem; }
+}
+
+/* ============================================================ GARLANDS, ORDINALS, INVITATION TITLE (v3.1)
+   Banana-leaf and jasmine garland across the top, flowing strands down both sides on wide
+   screens, a floral flourish in place of the lotus bud, and dates written as ordinals. */
+.hero { padding-top: calc(var(--nav-h) + 11rem); }
+.strands { position: absolute; top: calc(var(--nav-h) - 12px); width: 130px; height: min(64vh, 620px); z-index: 3; pointer-events: none; }
+.strands-l { left: calc(50% - 50vw); }
+.strands-r { right: calc(50% - 50vw); transform: scaleX(-1); }
+.strands .swing { transform-box: fill-box; transform-origin: 50% 0; animation: sway 6.5s ease-in-out infinite alternate; }
+/* the strands live in the margin outside the 1180px hero, so they need a wide screen */
+@media (max-width: 1440px) { .strands { display: none; } }
+.pin-gate .toran { height: 190px; }
+
+.hero-dates b sup, .scene-date b sup { font-size: .42em; vertical-align: .6em; margin-left: .05em; letter-spacing: .02em; font-style: italic; font-weight: 400; }
+.foot { font-variant-numeric: lining-nums; }
+
+.inv-title { margin-bottom: .2rem; }
+.inv-sub { text-align: center; color: var(--royal); font-size: 1.2rem; margin: 0; }
+.flourish { display: block; width: min(280px, 72%); height: 56px; margin: 1rem auto 2.4rem; color: var(--gold); }
+.closing .flourish { color: var(--champagne); margin: 1.4rem auto 1.6rem; }
+.inv-bless-2 { display: block; font-size: .92em; margin-top: .35em; letter-spacing: .02em; }
+.orn { color: var(--gold); }
+
+/* on phones and tablets the Sri Lanka link lives in the header, so it never covers the page */
+@media (max-width: 900px) {
+  .sl-btn, .sl-btn.hide { position: fixed; top: calc((var(--nav-h) - 38px) / 2); right: 4.2rem; bottom: auto; z-index: 55; min-height: 38px; padding: .4rem .75rem .4rem .6rem; font-size: .62rem; letter-spacing: .12em; box-shadow: none; opacity: 1; transform: none; pointer-events: auto; }
+  .sl-btn .sl-flag { font-size: 1rem; }
+  .hero { padding-top: calc(var(--nav-h) + 9.5rem); }
+  .toran { height: 150px; }
+  .pin-gate .toran { height: 150px; }
+}
+@media (max-width: 560px) {
+  .hero { padding-top: calc(var(--nav-h) + 8.6rem); }
+  .flourish { width: 78%; height: 46px; }
 }
