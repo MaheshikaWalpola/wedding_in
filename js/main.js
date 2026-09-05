@@ -501,7 +501,7 @@ function setupPetals() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     // a new flock only when the width changes; a taller or shorter hero (mobile URL bar) keeps the petals where they are
     if (widthChanged || !petals.length) {
-      const n = Math.round(Math.min(26, Math.max(12, W / 55)));
+      const n = W < 700 ? 26 : Math.round(Math.min(30, Math.max(14, W / 50)));
       petals = Array.from({ length: n }, () => make(true));
     }
   }
