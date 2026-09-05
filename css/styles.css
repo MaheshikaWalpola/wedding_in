@@ -2,7 +2,7 @@
    Maheshika & Moksha · Tirupati
    Design system
    · colour: ivory ground, royal blue, champagne gold, a whisper of saffron
-   · type: Bodoni Moda (high-contrast editorial serif) + Manrope (text) + Noto Serif Telugu
+   · type: Playfair Display (clear, premium serif) + Manrope (text) + Noto Serif Telugu
    · radius: 999 (pills) / 22 (cards) / 12 (small) / 6 (tiny)
    · shadow: three levels, always warm-tinted
    · motion: one easing, three durations (fast .25s, base .6s, slow 1s)
@@ -31,7 +31,7 @@
   --ink-soft: #4f463c;
   --ink-mute: #70675c;         /* deepened from #857b6d so small muted text passes 4.5:1 on cream */
 
-  --serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
   --telugu: "Noto Serif Telugu", "Gautami", serif;
 
@@ -598,7 +598,7 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .inv-sub { font-size: 1.3rem; }
 .nav-rsvp { color: var(--royal); }
 /* the RSVP panel sits between the three days and the map */
-.rsvp-panel { margin-top: 1.1rem; text-align: center; padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.2rem, 4vw, 3rem); border: 1px solid rgba(212,185,120,.6); border-radius: var(--r-card); background: linear-gradient(135deg, rgba(212,185,120,.14), rgba(255,255,255,.04)); }
+.rsvp-panel { margin-top: 2.5rem; text-align: center; padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.2rem, 4vw, 3rem); border: 1px solid rgba(212,185,120,.6); border-radius: var(--r-card); background: linear-gradient(135deg, rgba(212,185,120,.14), rgba(255,255,255,.04)); }
 .rsvp-kicker { font-family: var(--sans); font-weight: 600; font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; color: var(--champagne); margin-bottom: .4rem; }
 .rsvp-date { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 300; color: var(--ivory); margin-bottom: .8rem; }
 .rsvp-date sup { font-size: .42em; vertical-align: .6em; margin-left: .05em; font-style: italic; font-weight: 400; color: var(--champagne); }
