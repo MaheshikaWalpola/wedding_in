@@ -467,8 +467,8 @@ ul.hotels small, .contact small { font-size: .82rem; color: var(--ink-mute); let
 @media (max-width: 700px) { .gal-grid .gal.reveal.in:nth-child(3n+2) { transform: none; } .gal-grid .gal.reveal.in:nth-child(even) { transform: translateY(1.2rem); } }
 
 /* headings reveal word by word */
-h2[data-split] .w { display: inline-block; overflow: hidden; vertical-align: bottom; }
-h2[data-split] .w > span { display: inline-block; transform: translateY(105%); transition: transform var(--t-slow) var(--ease); }
+h2[data-split] .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .24em; margin-bottom: -.24em; }
+h2[data-split] .w > span { display: inline-block; transform: translateY(135%); transition: transform var(--t-slow) var(--ease); }
 h2[data-split].in .w > span { transform: none; }
 h2[data-split].reveal { opacity: 1; transform: none; }
 
@@ -588,3 +588,17 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
   .hero { padding-top: calc(var(--nav-h) + 8.6rem); }
   .flourish { width: 78%; height: 46px; }
 }
+
+/* ============================================================ v3.2: mango toran, corner strands on phones, RSVP, bigger section labels */
+.eyebrow { font-size: .86rem; letter-spacing: .3em; }
+.eyebrow .te { font-size: 1.22rem; }
+.inv-sub { font-size: 1.3rem; }
+.nav-rsvp { color: var(--royal); }
+.scene-rsvp { font-family: var(--serif); font-size: 1.08rem; color: var(--ivory); margin: .2rem 0 0; }
+.scene-rsvp strong { font-weight: 500; color: var(--champagne); letter-spacing: .02em; }
+/* corner strands: three lanes on wide screens, a single short one at each top corner on phones and tablets */
+@media (max-width: 1440px) {
+  .strands { display: block; width: 64px; height: min(34vh, 300px); top: calc(var(--nav-h) - 6px); }
+  .strands-l { left: 0; } .strands-r { right: 0; }
+}
+@media (max-width: 560px) { .strands { width: 52px; height: min(30vh, 240px); } }

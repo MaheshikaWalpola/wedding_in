@@ -315,13 +315,13 @@ function setupLangTabs() {
   });
 }
 
-/* ---------- Toran: banana-leaf fronds and hanging jasmine strands along a string
-   across the top of the hero, redrawn to the current width ---------- */
+/* ---------- Toran: a mango-leaf string across the top of the hero, the way a South
+   Indian doorway is dressed, with jasmine strands hanging at intervals. Redrawn to width. ---------- */
 
 const NS = "http://www.w3.org/2000/svg";
 const el = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
 const use = (id, x, y, size, extra) => el("use", Object.assign({ href: "#" + id, x: x - size / 2, y, width: size, height: size }, extra || {}));
-const pick = (i, a, b) => a + ((i * 37) % 5) * ((b - a) / 4); // deterministic "random" spread per index
+const pick = (i, a, b) => a + ((i * 37) % 5) * ((b - a) / 4); // deterministic spread per index
 
 /* a hanging jasmine strand: thread + alternating jasmine and marigold beads, a jasmine at the tip */
 function strand(g, len, scale) {
@@ -332,6 +332,9 @@ function strand(g, len, scale) {
   }
   g.appendChild(use("jasmine", 0, len - 5.5 * scale, 11 * scale));
 }
+
+/* a mango leaf hanging from (0,0), pointing down, tilted by `rot` degrees */
+const mangoLeaf = (len, rot, extra) => el("use", Object.assign({ href: "#mango", x: -len * 16 / 46 / 2, y: 0, width: len * 16 / 46, height: len, transform: `rotate(${rot} 0 0)` }, extra || {}));
 
 function drawToran(svg) {
   if (!svg) return;
@@ -347,28 +350,33 @@ function drawToran(svg) {
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
     svg.innerHTML = "";
     const sag = Math.min(22, W * 0.026);
+    const yAt = (x) => { const t = x / W; return 10 + 4 * sag * t * (1 - t); };
     svg.appendChild(el("path", { d: `M0 8 Q ${W / 2} ${8 + sag * 2} ${W} 8`, fill: "none", stroke: "#b8963f", "stroke-width": 1.1 }));
     svg.appendChild(el("path", { d: `M0 12 Q ${W / 2} ${12 + sag * 2.2} ${W} 12`, fill: "none", stroke: "#d4b978", "stroke-width": 0.7 }));
-    const step = compact ? 54 : 74;
+
+    // the leaf string: one mango leaf every few pixels, alternating tilt, so the string reads as a full toran
+    const leafStep = compact ? 19 : 23;
+    const leafLen = (compact ? 40 : 50) * scale;
+    const nLeaves = Math.ceil(W / leafStep) + 1;
+    for (let i = 0; i < nLeaves; i++) {
+      const x = i * leafStep;
+      const pos = el("g", { transform: `translate(${x.toFixed(1)} ${yAt(x).toFixed(1)})` });
+      const g = el("g", { class: "swing" });
+      g.style.animationDelay = `${(i % 9) * -0.7}s`;
+      g.appendChild(mangoLeaf(leafLen * (i % 2 ? 0.9 : 1), i % 2 ? 9 : -9));
+      pos.appendChild(g); svg.appendChild(pos);
+    }
+    // jasmine strands at intervals, between the leaves
+    const step = compact ? 92 : 118;
     const n = Math.ceil(W / step) + 1;
     for (let i = 0; i < n; i++) {
       const x = i * step - step / 2;
-      const t = x / W;
-      const y = 10 + 4 * sag * t * (1 - t);
-      const pos = el("g", { transform: `translate(${x.toFixed(1)} ${y.toFixed(1)})` });
+      const pos = el("g", { transform: `translate(${x.toFixed(1)} ${yAt(x).toFixed(1)})` });
       const g = el("g", { class: "swing" });
       g.style.animationDelay = `${(i % 7) * -0.9}s`;
-      pos.appendChild(g);
-      if (i % 3 === 0) {
-        // a pair of banana-leaf fronds with a small jasmine knot at the string
-        const lh = (compact ? 66 : 96) * scale;
-        g.appendChild(el("use", { href: "#bleaf", x: -7, y: 0, width: 14, height: lh, transform: "rotate(-10 0 0)" }));
-        g.appendChild(el("use", { href: "#bleaf", x: -7, y: 0, width: 14, height: lh, transform: "rotate(10 0 0)" }));
-        g.appendChild(use("jasmine", -4, -3, 9 * scale)); g.appendChild(use("jasmine", 4, -1, 8 * scale)); g.appendChild(use("bead", 0, 5, 5 * scale));
-      } else {
-        strand(g, pick(i, compact ? 44 : 64, compact ? 96 : 150) * scale, scale);
-      }
-      svg.appendChild(pos);
+      strand(g, pick(i, compact ? 60 : 84, compact ? 108 : 156) * scale, scale);
+      g.appendChild(use("jasmine", -4, -2, 9 * scale)); g.appendChild(use("jasmine", 4, 0, 8 * scale));
+      pos.appendChild(g); svg.appendChild(pos);
     }
   }
   render();
@@ -376,31 +384,31 @@ function drawToran(svg) {
   window.addEventListener("resize", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); });
 }
 
-/* ---------- Side strands: three jasmine strands flowing down each edge of the hero (wide screens) ---------- */
+/* ---------- Corner strands: jasmine and mango leaves flowing down the edges of the hero.
+   Three lanes on wide screens, one short lane at each top corner on phones ---------- */
 
 function drawStrands(svg) {
   if (!svg) return;
-  let lastH = 0;
+  let lastKey = "";
   function render() {
     if (!svg.isConnected || !svg.clientHeight) return;
-    const H = svg.clientHeight, W = 130;
-    if (H === lastH) return;
-    lastH = H;
+    const H = svg.clientHeight, W = svg.clientWidth;
+    const key = W + "x" + H;
+    if (key === lastKey) return;
+    lastKey = key;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
     svg.innerHTML = "";
-    const lanes = [[26, 0.58], [62, 0.9], [100, 0.72]];
+    const lanes = W >= 100 ? [[26, 0.58], [62, 0.9], [100, 0.72]] : [[W * 0.42, 0.95]];
     lanes.forEach(([x, f], j) => {
       const len = H * f;
       const pos = el("g", { transform: `translate(${x} 0)` });
       const g = el("g", { class: "swing" });
       g.style.animationDelay = `${j * -2.1}s`;
       pos.appendChild(g);
-      // a gently curving thread
       g.appendChild(el("path", { d: `M0 0 C ${j % 2 ? 10 : -10} ${len * 0.35}, ${j % 2 ? -8 : 8} ${len * 0.7}, 0 ${len}`, fill: "none", stroke: "#b8963f", "stroke-width": 0.8 }));
-      if (j === 1) { g.appendChild(el("use", { href: "#bleaf", x: -7, y: 0, width: 14, height: 110, transform: "rotate(-6 0 0)" })); }
       for (let y = 14, k = 0; y < len - 6; y += 10, k++) {
         const dx = (j % 2 ? 1 : -1) * Math.sin((y / len) * Math.PI) * 9;
-        if (k % 5 === 4) g.appendChild(el("use", { href: "#leaf", x: dx - 2, y: y - 4, width: 15, height: 15, transform: `rotate(${k % 2 ? 110 : 70} ${dx + 5} ${y + 3})` }));
+        if (k % 6 === 5) g.appendChild(mangoLeaf(26, k % 2 ? 24 : -24, { transform: `translate(${dx} ${y - 2}) rotate(${k % 2 ? 24 : -24})` }));
         else g.appendChild(k % 2 === 0 ? use("jasmine", dx, y - 4.5, 9) : use("bead", dx, y - 2.75, 5.5));
       }
       g.appendChild(use("jasmine", 0, len - 6, 12));
@@ -481,7 +489,7 @@ function setupPetals() {
   const canvas = document.getElementById("petals");
   if (!canvas || REDUCED) return;
   const ctx = canvas.getContext("2d");
-  const COLORS = ["#e9a13b", "#f0ad3f", "#c97a18", "#f7c35b", "#d4b978"];
+  const COLORS = ["#fbf5e6", "#f1e4c3", "#e9c88f", "#f4d9a6", "#e9a13b"];
   let W = 0, H = 0, dpr = 1, petals = [], running = false, raf = 0, last = 0;
 
   function size() {
@@ -517,7 +525,11 @@ function setupPetals() {
       p.phase += dt * 1.3; p.y += p.vy * dt; p.x += (p.vx + Math.sin(p.phase) * p.sway) * dt; p.a += p.spin * dt;
       if (p.y > H + 20 || p.x < -30 || p.x > W + 30) { petals[i] = make(false); continue; }
       ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalAlpha = p.o; ctx.fillStyle = p.c;
-      ctx.beginPath(); ctx.moveTo(-p.rx, 0); ctx.quadraticCurveTo(0, -p.ry * 1.6, p.rx, 0); ctx.quadraticCurveTo(0, p.ry * 1.6, -p.rx, 0); ctx.fill();
+      // a five-petal blossom
+      for (let q = 0; q < 5; q++) {
+        ctx.beginPath(); ctx.ellipse(0, -p.rx * 0.95, p.rx * 0.5, p.rx * 0.95, 0, 0, Math.PI * 2); ctx.fill(); ctx.rotate(Math.PI * 2 / 5);
+      }
+      ctx.fillStyle = "#c9a44a"; ctx.beginPath(); ctx.arc(0, 0, p.rx * 0.3, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
     }
     raf = requestAnimationFrame(frame);

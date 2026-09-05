@@ -10,7 +10,7 @@ no backend: plain HTML, CSS and JavaScript, hosted on Cloudflare Pages.
 |---|---|---|
 | Thu 10 Dec 2026 | Mehendi & Haldi, Tirupati | close family |
 | Fri 11 Dec 2026 | Wedding — Subha Muhurtham 9:00–10:30 AM, T.T.D. Cottage, Shankumitta, Tirumala | close family |
-| Sun 13 Dec 2026 | Reception & Dinner from 5 PM, S.R. Convention Hall, Old Tiruchanoor Road, Tirupati | everyone |
+| Sun 13 Dec 2026 | Reception & Dinner from 5 PM, S.R. Convention Hall, Old Tiruchanoor Road, Tirupati | everyone, RSVP by 15 Oct via WhatsApp |
 
 ## Files
 
