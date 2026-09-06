@@ -692,3 +692,5 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .page-foot { text-align: center; padding: 3rem var(--gutter) 4rem; }
 .page-foot a { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; font-family: var(--sans); font-weight: 600; font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--royal); }
 @media (max-width: 560px) { .wall { grid-template-columns: repeat(2, 1fr); gap: .7rem; } .page-photos .photos-hero { padding-top: calc(var(--nav-h) + 7.5rem); } }
+.couple-names .couple-home { text-align: left; margin: 0; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.35; }
+@media (max-width: 760px) { .couple-names .couple-home { text-align: center; } }
