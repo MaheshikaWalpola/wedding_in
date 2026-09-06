@@ -407,8 +407,8 @@ ul.hotels a:hover .ic, .contact a:hover .ic { transform: translateX(3px); }
 ul.hotels span, .contact a span { display: flex; flex-direction: column; }
 ul.hotels strong, .contact strong { font-weight: 600; color: var(--ink); }
 ul.hotels small, .contact small { font-size: .82rem; color: var(--ink-mute); letter-spacing: .02em; }
-.tip { display: grid; grid-template-columns: 64px 1fr; gap: 1.4rem; align-items: center; margin-top: 3rem; padding: 1.6rem 1.8rem; background: var(--royal-mist); border-radius: var(--r-card); }
-.tip-art { width: 64px; height: 74px; color: var(--royal); fill: none; stroke: currentColor; stroke-width: 2; opacity: .85; }
+.tip { display: grid; grid-template-columns: 124px 1fr; gap: 1.4rem; align-items: center; margin-top: 3rem; padding: 1.6rem 1.8rem; background: var(--royal-mist); border-radius: var(--r-card); }
+.tip-art { width: 124px; height: 88px; color: var(--royal); opacity: .9; }
 .tip h4 { color: var(--royal-deep); font-size: 1.2rem; margin-bottom: .3rem; }
 .tip p { margin: 0; color: var(--ink-soft); }
 @media (max-width: 760px) { .travel-grid { grid-template-columns: 1fr; } .tip { grid-template-columns: 1fr; text-align: center; } .tip-art { margin: 0 auto; } }

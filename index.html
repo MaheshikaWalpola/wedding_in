@@ -46,6 +46,8 @@
         <g stroke="currentColor" stroke-width="3" fill="none"><path d="M92 40V28M100 36V22M108 40V28"/></g>
         <circle cx="92" cy="26" r="3"/><circle cx="100" cy="19" r="3.5"/><circle cx="108" cy="26" r="3"/>
       </symbol>
+      <!-- the Tirumala temple, traced from the pencil sketch: tiered gopuram, domed shrine, pillared mandapa -->
+      <symbol id="temple" viewBox="0 0 560 400"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M6 372H554M20 372V356H540V372M40 356V342H520V356"/><path d="M186 342V300H196V262H206V226H216V192H226V160H236V132H246V108H314V132H324V160H334V192H344V226H354V262H364V300H374V342"/><path d="M196 300H364M206 262H354M216 226H344M226 192H334M236 160H324M246 132H314"/><path d="M212 342V318H232V342M328 342V318H348V342M270 342V308H290V342"/><path d="M222 300V282H238V300M322 300V282H338V300M271 300V278H289V300"/><path d="M232 262V246H246V262M314 262V246H328V262M272 262V242H288V262"/><path d="M241 226V212H253V226M307 226V212H319V226M273 226V208H287V226"/><path d="M250 192V180H260V192M300 192V180H310V192M274 192V176H286V192"/><path d="M258 160V150H266V160M294 160V150H302V160M275 160V146H285V160"/><path d="M275 132V120H285V132"/><path d="M240 108C246 92 260 84 280 84C300 84 314 92 320 108"/><path d="M240 108C232 104 230 96 236 90C240 86 244 88 244 92M320 108C328 104 330 96 324 90C320 86 316 88 316 92"/><g><path d="M254 84V70M266 84V66M280 84V62M294 84V66M306 84V70"/><circle cx="254" cy="66" r="3.4"/><circle cx="266" cy="62" r="3.4"/><circle cx="280" cy="57" r="4"/><circle cx="294" cy="62" r="3.4"/><circle cx="306" cy="66" r="3.4"/><path d="M280 53V46M266 58V52M294 58V52"/></g><path d="M60 342V270H160V342M60 270V258H160V270"/><path d="M76 258V234C76 212 90 196 110 196C130 196 144 212 144 234V258"/><path d="M84 258V240H100V258M120 258V240H136V258"/><path d="M110 196V184M110 180V172"/><circle cx="110" cy="182" r="3"/><path d="M70 342V306H84V342M136 342V306H150V342M102 342V296H118V342"/><path d="M64 258V250M80 258V250M96 258V250M124 258V250M140 258V250M156 258V250"/><path d="M404 342V268H520V342"/><path d="M396 268L412 240H512L528 268"/><path d="M412 240V228H512V240"/><path d="M462 228V214M462 210V202"/><circle cx="462" cy="212" r="3"/><path d="M420 342V276M444 342V276M480 342V276M504 342V276"/><path d="M426 276H438M486 276H498"/><path d="M262 356H298M256 372H304"/></g></symbol>
       <symbol id="diya" viewBox="-26 -30 52 44">
         <path d="M-22 0Q0 16 22 0Q0-7-22 0Z" fill="#b8963f"/>
         <path d="M-22 0Q0 5 22 0" fill="none" stroke="#8f6f25" stroke-width="1"/>
@@ -170,11 +172,9 @@
 
     <svg class="skyline" data-parallax="-0.12" viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".35">
-        <use href="#gopuram" x="60"  y="70"  width="120" height="138"/>
-        <use href="#gopuram" x="300" y="10"  width="170" height="196"/>
-        <use href="#gopuram" x="620" y="50"  width="140" height="161"/>
-        <use href="#gopuram" x="930" y="0"   width="180" height="207"/>
-        <use href="#gopuram" x="1240" y="60" width="130" height="150"/>
+        <use href="#gopuram" x="40"   y="90" width="110" height="126"/>
+        <use href="#temple"  x="580"  y="8" width="280" height="200"/>
+        <use href="#gopuram" x="1290" y="90" width="110" height="126"/>
       </g>
     </svg>
   </section>
@@ -411,7 +411,7 @@
       </div>
 
       <div class="tip reveal">
-        <svg class="tip-art" aria-hidden="true"><use href="#gopuram"/></svg>
+        <svg class="tip-art" aria-hidden="true"><use href="#temple"/></svg>
         <div>
           <h4>If you have a day to spare</h4>
           <p>The Sri Venkateswara Temple on Tirumala, just above the town, is one of the most visited places of worship in the world. Darshan needs to be booked well in advance. Ask us and we will help.</p>
