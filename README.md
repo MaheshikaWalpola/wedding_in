@@ -20,7 +20,9 @@ css/styles.css      design system at the top (colour, type, radius, shadow, moti
 js/main.js          PIN gate, nav, text reveals, countdown, language tabs, garland, parallax, tilt, petals
 assets/wedding.ics  the "Add to calendar" file (reception, 5–11 PM IST)
 images/             couple photos + the MM logo set copied from ../Branding
-apps-script/Code.gs the old RSVP backend — NOT used by this site, kept for reference
+apps-script/Code.gs the guest-photo upload backend (Google Apps Script). Deploy it once, paste the URL in js/config.js
+js/config.js        PHOTO_UPLOAD_URL: the deployed Apps Script web-app URL (empty = uploads say "open soon")
+js/upload.js        picks photos, shrinks them in the browser, posts them to the script. Upload only, nothing can delete
 robots.txt          asks search engines not to index
 ```
 
@@ -50,3 +52,20 @@ Open http://localhost:8789. The PIN is **1312**; the device remembers it.
 
 Push to `main`. Cloudflare Pages rebuilds the live site within a minute. There
 is no build step — framework preset *None*, output directory `/`.
+
+## Switching on guest photo uploads (one-time, about five minutes)
+
+1. Go to https://sheets.new and name the sheet **Wedding Planner — India**.
+2. In the sheet: **Extensions → Apps Script**. Delete whatever is in the editor,
+   paste the whole of `apps-script/Code.gs`, and save (Ctrl/Cmd + S).
+3. **Deploy → New deployment → gear icon → Web app.**
+   Execute as: **Me**. Who has access: **Anyone**. Click **Deploy**.
+   Google will ask you to authorise the script once (Review permissions → your
+   account → Advanced → Go to project → Allow).
+4. Copy the **Web app URL** (ends in `/exec`) and send it to Claude, or paste it
+   into `js/config.js` as `PHOTO_UPLOAD_URL` and push.
+
+Photos land in a Drive folder called **Indian Wedding Guest Photos** (created
+automatically on the first upload) and every upload is listed in the sheet's
+**Guest Photos** tab. Guests can only add photos; nothing on the site can list,
+edit or delete what is in the folder.
