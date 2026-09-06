@@ -634,3 +634,22 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .upload-status.error { color: #9b2b2b; }
 .upload-status.muted { color: var(--ink-mute); }
 @media (max-width: 560px) { .upload-form { flex-direction: column; } .upload-form input[type="text"], .upload-form .btn { width: 100%; } }
+
+/* ============================================================ THE COUPLE: one photograph, two names */
+.couple-layout { display: grid; grid-template-columns: minmax(0, 420px) 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; margin-top: 3rem; }
+.couple-photo { margin: 0; position: relative; }
+.couple-photo .img-reveal { border-radius: var(--r-card); box-shadow: var(--sh-3); }
+.couple-photo .img-reveal img { aspect-ratio: 4 / 5; }
+.couple-photo::after { content: ""; position: absolute; inset: 16px -16px -16px 16px; border: 1px solid rgba(212,185,120,.8); border-radius: var(--r-card); pointer-events: none; z-index: -1; }
+.couple-names { display: grid; gap: 2.2rem; }
+.couple-names .person { text-align: left; }
+.couple-names .person-role { justify-content: flex-start; }
+.couple-names h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); }
+.couple-names .person-from { margin: .3rem 0 0; }
+.couple-names .person + .person { padding-top: 2.2rem; border-top: 1px solid var(--gold-line); }
+@media (max-width: 760px) {
+  .couple-layout { grid-template-columns: 1fr; gap: 2.2rem; }
+  .couple-photo { width: min(100%, 360px); margin: 0 auto; }
+  .couple-names .person { text-align: center; }
+  .couple-names .person-role { justify-content: center; }
+}
