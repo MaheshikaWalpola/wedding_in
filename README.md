@@ -22,7 +22,8 @@ assets/wedding.ics  the "Add to calendar" file (reception, 5–11 PM IST)
 images/             couple photos + the MM logo set copied from ../Branding
 apps-script/Code.gs the guest-photo upload backend (Google Apps Script). Deploy it once, paste the URL in js/config.js
 js/config.js        PHOTO_UPLOAD_URL: the deployed Apps Script web-app URL (empty = uploads say "open soon")
-js/upload.js        picks photos, shrinks them in the browser, posts them to the script. Upload only, nothing can delete
+photos.html         the album page: big upload panel + the wall of guest photos (upload only, nothing can delete)
+js/photos.js        upload + album loader for photos.html
 robots.txt          asks search engines not to index
 ```
 

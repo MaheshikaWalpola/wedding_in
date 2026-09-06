@@ -89,6 +89,8 @@
       </symbol>
       <symbol id="ic-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g></symbol>
       <symbol id="ic-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.4"/></g></symbol>
+      <symbol id="ic-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.2-2h6.6L16.5 7h2A1.5 1.5 0 0 1 20 8.5V18a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18Z"/><circle cx="12" cy="13" r="3.4"/></g></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M5 18.5 4 20.5l3.4-1.1A8.5 8.5 0 1 0 5 18.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
       <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="ic-plane" viewBox="0 0 24 24"><path d="M10.5 13.5 4 12l-1-1.5L20 3l-4 17-1.5-1-2-6.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></symbol>
       <symbol id="ic-bed" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 18V8M3 14h18v4M3 14V10.5A1.5 1.5 0 0 1 4.5 9H11v5M21 14v-2.5A2.5 2.5 0 0 0 18.5 9H11"/><circle cx="7" cy="11.5" r="1.2"/></g></symbol>
@@ -110,6 +112,7 @@
       <a href="#rituals">Traditions</a>
       <a href="#travel">Travel &amp; Stay</a>
       <a href="#gallery">Gallery</a>
+      <a href="photos.html">Photos</a>
       <a href="#rsvp" class="nav-rsvp">RSVP</a>
     </nav>
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="links">
@@ -431,16 +434,9 @@
         <div class="gal reveal"><img src="images/gallery-6.jpg" alt="In front of a turquoise house in Burano" loading="lazy"></div>
       </div>
 
-      <div class="upload-panel reveal">
-        <p class="upload-kicker">Add your photos</p>
-        <h3>Share the moments you capture</h3>
-        <p class="upload-text">Pictures from the three days, or from any day we have shared. They go straight into our album.</p>
-        <form id="upload-form" class="upload-form" novalidate>
-          <input id="upload-name" type="text" name="name" placeholder="Your name (optional)" autocomplete="name" maxlength="60">
-          <input id="upload-files" type="file" accept="image/*" multiple hidden>
-          <button type="button" id="upload-pick" class="btn btn-primary"><span>Choose photos</span><svg class="ic" aria-hidden="true"><use href="#ic-arrow"/></svg></button>
-        </form>
-        <p id="upload-status" class="upload-status" aria-live="polite"></p>
+      <div class="gal-cta reveal">
+        <a class="btn btn-primary btn-big" href="photos.html"><svg class="ic" aria-hidden="true"><use href="#ic-camera"/></svg><span>Add your photos</span></a>
+        <p class="small">Your pictures go into our album on their own page, so this one stays short.</p>
       </div>
     </div>
   </section>
@@ -470,7 +466,12 @@
 
   </main>
 
+  <nav class="quick-bar" aria-label="Quick actions">
+    <a href="https://wa.me/4917676514369?text=Hi%20Moksha%21%20This%20is%20___.%0AHere%20is%20our%20RSVP%20for%20Tirupati%3A%0A10th%20Dec%2C%20Mehendi%20%26%20Haldi%3A%20Yes%0A11th%20Dec%2C%20Wedding%3A%20Yes%0A13th%20Dec%2C%20Reception%3A%20Yes%0AWe%20will%20be%20___%20guests.%0ASee%20you%20in%20December%21" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#ic-chat"/></svg><span>RSVP</span></a>
+    <a href="photos.html"><svg class="ic" aria-hidden="true"><use href="#ic-camera"/></svg><span>Add photos</span></a>
+    <a href="https://maheshika-moksha.pages.dev" target="_blank" rel="noopener"><span class="sl-flag" aria-hidden="true">🇱🇰</span><span>Sri Lanka</span></a>
+  </nav>
+
   <script src="js/config.js" defer></script>
-  <script src="js/upload.js" defer></script>
 </body>
 </html>
