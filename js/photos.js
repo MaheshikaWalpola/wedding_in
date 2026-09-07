@@ -81,10 +81,47 @@ function addTile(src, by, prepend) {
   img.alt = by ? `Photo shared by ${by}` : "Guest photo";
   img.addEventListener("error", () => fig.remove(), { once: true });
   const cap = document.createElement("figcaption");
-  cap.textContent = by || "A guest";
+  const who = document.createElement("span");
+  who.textContent = by || "A guest";
+  const save = document.createElement("button");
+  save.type = "button"; save.className = "wall-save";
+  save.title = "Save this photo to your phone"; save.setAttribute("aria-label", "Save this photo to your phone");
+  save.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#ic-download"/></svg>';
+  save.addEventListener("click", () => savePhoto(src, save));
+  cap.append(who, save);
   fig.append(img, cap);
   prepend ? wall.prepend(fig) : wall.append(fig);
 }
+
+/* Save a photo to the guest's phone. On phones the share sheet opens (iPhone: "Save Image"
+   puts it in the camera roll). Elsewhere it downloads as a normal file. */
+let saveCount = 0;
+async function savePhoto(src, btn) {
+  btn.classList.add("busy");
+  try {
+    // Drive's thumbnail link redirects to googleusercontent, which is the host that allows this fetch
+    const m = src.match(/[?&]id=([^&]+)/);
+    const full = m ? `https://lh3.googleusercontent.com/d/${m[1]}=w2000` : src;
+    const blob = await (await fetch(full)).blob();
+    const name = `maheshika-moksha-${String(++saveCount).padStart(2, "0")}.jpg`;
+    const file = new File([blob], name, { type: blob.type || "image/jpeg" });
+    const phone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && matchMedia("(pointer: coarse)").matches);
+    if (phone && navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); flash(btn); return; }
+      catch (e) { if (e && e.name === "AbortError") return; }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = name; document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    flash(btn);
+  } catch (e) {
+    window.open(src, "_blank", "noopener");
+  } finally {
+    btn.classList.remove("busy");
+  }
+}
+function flash(btn) { btn.classList.add("done"); setTimeout(() => btn.classList.remove("done"), 1500); }
 
 function shrink(file) {
   return new Promise((resolve, reject) => {

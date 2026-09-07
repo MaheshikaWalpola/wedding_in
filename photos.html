@@ -48,6 +48,7 @@
       </symbol>
       <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="ic-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.2-2h6.6L16.5 7h2A1.5 1.5 0 0 1 20 8.5V18a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18Z"/><circle cx="12" cy="13" r="3.4"/></g></symbol>
+      <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 19h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M5 18.5 4 20.5l3.4-1.1A8.5 8.5 0 1 0 5 18.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
     </defs>
   </svg>
@@ -73,9 +74,13 @@
     </button>
   </header>
 
-  <a class="sl-btn" href="https://maheshika-moksha.pages.dev" target="_blank" rel="noopener" aria-label="Open the Sri Lankan wedding website">
-    <span class="sl-flag" aria-hidden="true">🇱🇰</span><span class="sl-text">Sri Lankan Wedding</span><span class="sl-short">Sri Lanka</span>
-  </a>
+  <nav class="pills" id="pills" aria-label="Quick actions">
+    <a class="pill pill-rsvp" href="https://wa.me/4917676514369?text=Hi%20Moksha%21%20This%20is%20___.%0AHere%20is%20our%20RSVP%20for%20Tirupati%3A%0A10th%20Dec%2C%20Mehendi%20%26%20Haldi%3A%20Yes%0A11th%20Dec%2C%20Wedding%3A%20Yes%0A13th%20Dec%2C%20Reception%3A%20Yes%0AWe%20will%20be%20___%20guests.%0ASee%20you%20in%20December%21" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#ic-chat"/></svg><span>RSVP</span></a>
+    <a class="pill pill-photos on" href="#add"><svg class="ic" aria-hidden="true"><use href="#ic-camera"/></svg><span>Add photos</span></a>
+    <a class="pill sl-btn" href="https://maheshika-moksha.pages.dev" target="_blank" rel="noopener" aria-label="Open the Sri Lankan wedding website">
+      <span class="sl-flag" aria-hidden="true">🇱🇰</span><span class="sl-text">Sri Lankan Wedding</span><span class="sl-short">Sri Lanka</span>
+    </a>
+  </nav>
 
   <main>
   <section class="section photos-hero">
@@ -85,7 +90,7 @@
       <h2 class="center reveal" data-split>Our album, filled by you</h2>
       <p class="center lede reveal">Every photo you add here goes straight into our Google Drive album. Add as many as you like.</p>
 
-      <div class="upload-panel upload-panel-big reveal">
+      <div class="upload-panel upload-panel-big reveal" id="add">
         <svg class="upload-icon" aria-hidden="true"><use href="#ic-camera"/></svg>
         <h3>Add your photos</h3>
         <p class="upload-text">Choose a few pictures from your phone. We shrink them a little so they send quickly, even on a slow connection.</p>

@@ -176,21 +176,33 @@ ul.plain li:last-child { border-bottom: 0; }
   .nav.menu-open { background: var(--ivory); }
 }
 
-/* fixed Sri Lankan button */
-.sl-btn {
+/* fixed quick actions, bottom right on desktop: RSVP · Add photos · Sri Lankan Wedding */
+.pills {
   position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 45;
+  display: flex; align-items: center; gap: .5rem;
+  transition: transform var(--t-fast) var(--ease), opacity var(--t-fast);
+}
+.pill {
   display: inline-flex; align-items: center; gap: .55rem;
   padding: .7rem 1.05rem .7rem .85rem; min-height: 44px;
-  background: var(--royal-ink); color: var(--ivory);
-  border: 1px solid rgba(212,185,120,.7); border-radius: 999px; text-decoration: none;
+  background: var(--paper); color: var(--royal-ink);
+  border: 1px solid rgba(184,150,63,.55); border-radius: 999px; text-decoration: none;
   font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
-  box-shadow: 0 12px 30px rgba(13,29,79,.32);
-  transition: transform var(--t-fast) var(--ease), opacity var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast);
+  box-shadow: 0 12px 30px rgba(13,29,79,.18);
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast), border-color var(--t-fast), background var(--t-fast);
 }
-.sl-btn:hover { transform: translateY(-2px); border-color: var(--champagne); box-shadow: 0 16px 36px rgba(13,29,79,.4); }
-.sl-btn:focus-visible { outline-color: var(--ivory); outline-offset: -5px; }
-/* steps aside while the contact cards are on screen (the closing has its own link) */
-.sl-btn.hide { opacity: 0; transform: translateY(8px); pointer-events: none; }
+.pill .ic { width: 18px; height: 18px; color: var(--royal); }
+.pill:hover { transform: translateY(-2px); border-color: var(--gold); box-shadow: 0 16px 36px rgba(13,29,79,.26); }
+.pill:focus-visible { outline-color: var(--royal); outline-offset: -5px; }
+.pill.on { background: var(--royal-mist); }
+.pill-rsvp { background: var(--royal); color: #fff; border-color: var(--royal); }
+.pill-rsvp .ic { color: #fff; }
+.pill-rsvp:hover { background: var(--royal-deep); border-color: var(--royal-deep); }
+.sl-btn { background: var(--royal-ink); color: var(--ivory); border-color: rgba(212,185,120,.7); box-shadow: 0 12px 30px rgba(13,29,79,.32); }
+.sl-btn:hover { border-color: var(--champagne); box-shadow: 0 16px 36px rgba(13,29,79,.4); }
+.sl-btn:focus-visible { outline-color: var(--ivory); }
+/* the cluster steps aside while the contact cards are on screen (the closing has its own link) */
+.pills.hide { opacity: 0; transform: translateY(8px); pointer-events: none; }
 .sl-flag { font-size: 1.1rem; line-height: 1; }
 .sl-short { display: none; }
 
@@ -486,7 +498,7 @@ h2[data-split].reveal { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
   /* catch-all: nothing may animate or transition, hover lifts included */
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
-  .btn:hover, .sl-btn:hover, .scene:hover, .ritual:hover, ul.hotels a:hover, .contact a:hover, .gal:hover img, .btn:hover .ic, ul.hotels a:hover .ic, .contact a:hover .ic, .hero-dates a:hover b { transform: none; }
+  .btn:hover, .pill:hover, .scene:hover, .ritual:hover, ul.hotels a:hover, .contact a:hover, .gal:hover img, .btn:hover .ic, ul.hotels a:hover .ic, .contact a:hover .ic, .hero-dates a:hover b { transform: none; }
   .shake { animation: none; }
   .rise, .reveal, .names .line-in, h2[data-split] .w > span, .scene.reveal .scene-date b { opacity: 1; transform: none; animation: none; transition: none; }
   .img-reveal::before { display: none; } .img-reveal img { transform: none; transition: none; }
@@ -498,7 +510,7 @@ h2[data-split].reveal { opacity: 1; transform: none; }
 /* ============================================================ PIN GATE */
 /* html.gated is set before first paint (inline in <head>) and cleared when the code is right:
    the page stays out of sight and the hero intro waits, so first-time guests see it after the gate opens */
-html.gated :is(main, .nav, .sl-btn, .progress) { visibility: hidden; }
+html.gated :is(main, .nav, .pills, .progress) { visibility: hidden; }
 html.gated :is(.rise, .names .line-in) { animation-play-state: paused; }
 html.gated .img-reveal::before { transform: none; visibility: visible; transition: none; }
 html.gated .img-reveal img { transform: scale(1.08); transition: none; }
@@ -550,7 +562,6 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
   .scene-actions { flex-direction: column; align-items: stretch; }
   .map iframe { height: 260px; }
   .contact { max-width: none; }
-  .sl-btn { padding: .6rem .85rem .6rem .75rem; font-size: .7rem; }
   .sl-text { display: none; } .sl-short { display: inline; }
   /* body-sized copy never drops below 16px on phones */
   .small, .cd-label, .inv-bless, .inv-grid p, .te-pane .inv-hosts small, .te-pane .inv-line small, .scene h3 small, .ritual p,
@@ -579,10 +590,7 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .inv-bless-2 { display: block; font-size: .92em; margin-top: .35em; letter-spacing: .02em; }
 .orn { color: var(--gold); }
 
-/* on phones and tablets the Sri Lanka link lives in the header, so it never covers the page */
 @media (max-width: 900px) {
-  .sl-btn, .sl-btn.hide { position: fixed; top: calc((var(--nav-h) - 38px) / 2); right: 4.2rem; bottom: auto; z-index: 55; min-height: 38px; padding: .4rem .75rem .4rem .6rem; font-size: .62rem; letter-spacing: .12em; box-shadow: none; opacity: 1; transform: none; pointer-events: auto; }
-  .sl-btn .sl-flag { font-size: 1rem; }
   .hero { padding-top: calc(var(--nav-h) + 9.5rem); }
   .toran { height: 150px; }
   .pin-gate .toran { height: 150px; }
@@ -673,8 +681,8 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
   .quick-bar a:first-child { background: var(--royal); color: #fff; margin-right: .4rem; }
   .quick-bar a:first-child .ic { color: #fff; }
   .quick-bar a.on { color: var(--royal); }
-  /* the header pill is redundant once the bar exists */
-  .sl-btn, .sl-btn.hide { display: none; }
+  /* the desktop pills are redundant once the bar exists */
+  .pills, .pills.hide { display: none; }
 }
 
 .page-photos .photos-hero { padding-top: calc(var(--nav-h) + 9rem); background-image: radial-gradient(rgba(184,150,63,.15) 1px, transparent 1.4px); background-size: 26px 26px; }
@@ -686,11 +694,17 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
 .wall-tile { margin: 0; border-radius: var(--r-sm); overflow: hidden; background: var(--paper); border: 1px solid var(--gold-line); box-shadow: var(--sh-1); }
 .wall-tile img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
-.wall-tile figcaption { font-family: var(--sans); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mute); padding: .5rem .8rem; }
+.wall-tile figcaption { display: flex; align-items: center; justify-content: space-between; gap: .5rem; font-family: var(--sans); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-mute); padding: .35rem .35rem .35rem .8rem; }
+.wall-tile figcaption span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wall-save { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--gold-line); background: var(--ivory); color: var(--royal); cursor: pointer; transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast); }
+.wall-save .ic { width: 18px; height: 18px; }
+.wall-save:hover { background: var(--royal); border-color: var(--royal); color: #fff; }
+.wall-save.busy { opacity: .5; pointer-events: none; }
+.wall-save.done { background: var(--royal-mist); border-color: var(--gold); }
 .wall-empty { text-align: center; color: var(--ink-mute); font-family: var(--serif); font-style: italic; font-size: 1.15rem; margin: 2.5rem 0 0; }
 .wall-empty[hidden] { display: none; }
 .page-foot { text-align: center; padding: 3rem var(--gutter) 4rem; }
 .page-foot a { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; font-family: var(--sans); font-weight: 600; font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--royal); }
-@media (max-width: 560px) { .wall { grid-template-columns: repeat(2, 1fr); gap: .7rem; } .page-photos .photos-hero { padding-top: calc(var(--nav-h) + 7.5rem); } }
+@media (max-width: 560px) { .wall { grid-template-columns: repeat(2, 1fr); gap: .7rem; } .wall-tile figcaption { font-size: .66rem; letter-spacing: .06em; } .page-photos .photos-hero { padding-top: calc(var(--nav-h) + 7.5rem); } }
 .couple-names .couple-home { text-align: left; margin: 0; font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.35; }
 @media (max-width: 760px) { .couple-names .couple-home { text-align: center; } }
