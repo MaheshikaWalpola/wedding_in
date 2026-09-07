@@ -10,7 +10,7 @@ hosted on Cloudflare Pages. Every push to `main` goes live within a minute.
 | Date | Event | Who |
 |---|---|---|
 | Thu 10 Dec 2026 | Mehendi & Haldi, 10 AM to 6 PM, Tirupati | close family & friends |
-| Fri 11 Dec 2026 | Wedding, Subha Muhurtham, T.T.D, Tirumala | close family & friends |
+| Fri 11 Dec 2026 | Wedding, Subha Muhurtham 9:00 to 10:30 AM, T.T.D, Tirumala | close family & friends |
 | Sun 13 Dec 2026 | Reception & Dinner from 5 PM, S.R. Convention Hall, Old Tiruchanoor Road | everyone, RSVP by 15 Oct 2026 on WhatsApp |
 
 ## Files
