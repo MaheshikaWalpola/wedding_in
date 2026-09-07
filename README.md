@@ -62,7 +62,8 @@ designs and `v3` is the current one; `git checkout v2 -- . && git commit` rolls 
 ## Guest photos
 
 Uploads are live (since 6 Sep 2026). Photos go to the Drive folder
-**Indian Wedding Guest Photos** and every upload is listed in the
+**Indian Wedding Guest Photos**, named "Guest name - original file name" with the
+guest's name in the file description, and every upload is listed in the
 **Guest Photos** tab of the sheet *Wedding Planner India*. To hide a photo from
 the album, set its **Show** cell to `no`. Guests can only add photos; nothing
 on the site can edit or delete them. The save button on each album tile opens
