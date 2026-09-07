@@ -37,6 +37,8 @@ function setupUpload() {
       for (const file of files) {
         say(`Sending ${sent + 1} of ${files.length}…`, "busy");
         const { base64, dataUrl } = await shrink(file);
+        // No Content-Type header on purpose: that keeps this a "simple" cross-origin request,
+        // so the browser skips the preflight that Apps Script cannot answer.
         const res = await fetch(PHOTO_UPLOAD_URL, {
           method: "POST",
           body: JSON.stringify({ action: "photo", name: (nameInput.value || "").trim(), filename: file.name.replace(/\.[^.]+$/, "") + ".jpg", mimeType: "image/jpeg", data: base64 }),
@@ -99,7 +101,8 @@ let saveCount = 0;
 async function savePhoto(src, btn) {
   btn.classList.add("busy");
   try {
-    // Drive's thumbnail link redirects to googleusercontent, which is the host that allows this fetch
+    // The album URLs point at drive.google.com, which refuses cross-origin fetches. The same file
+    // is served with permissive headers from googleusercontent, so build that URL from the file id.
     const m = src.match(/[?&]id=([^&]+)/);
     const full = m ? `https://lh3.googleusercontent.com/d/${m[1]}=w2000` : src;
     const blob = await (await fetch(full)).blob();

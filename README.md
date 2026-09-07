@@ -34,7 +34,8 @@ robots.txt            asks search engines not to index
 python3 -m http.server 8789
 ```
 
-Open http://localhost:8789. The PIN is **1312**; the device remembers it.
+Open http://localhost:8789 and enter the PIN from the invitation (also in `../SYSTEM.md`,
+which is not published). The device remembers it.
 
 ## Things you may want to change
 
@@ -55,8 +56,8 @@ Open http://localhost:8789. The PIN is **1312**; the device remembers it.
 ## Deploy
 
 Push to `main`. Cloudflare Pages rebuilds the live site within a minute.
-Framework preset *None*, output directory `/`. Tags `v1`, `v2`, `v3` are
-earlier designs; `git checkout v3 -- . && git commit` rolls back.
+Framework preset *None*, output directory `/`. Tags `v1` and `v2` are earlier
+designs and `v3` is the current one; `git checkout v2 -- . && git commit` rolls back.
 
 ## Guest photos
 

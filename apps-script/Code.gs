@@ -8,9 +8,12 @@
  *                                      and logs it in the "Guest Photos" tab
  *
  * The seat finder, personalised invites and RSVP handlers below are kept so
- * this file stays a copy of the Sri Lankan backend (see ../../CLAUDE.md:
+ * this file stays a copy of the Sri Lankan backend (see ../../../CLAUDE.md:
  * only this header, SITE_URL and PHOTOS_FOLDER_NAME differ). The Indian
- * site never calls them and has no guest list.
+ * site never calls them and has no guest list. For the same reason the
+ * sheet-side helpers setupWebsite(), writeInviteLinks() and listInviteLinks()
+ * stop with a "Guest List" error here. Nothing needs running for photos:
+ * the "Guest Photos" tab and the Drive folder are created on first upload.
  *
  * DEPLOY / REDEPLOY:
  *   1. Open the sheet: Extensions -> Apps Script, paste this file, save.

@@ -28,13 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ---------- PIN gate ----------
-   Wedding-grade privacy: a four-digit code from the invitation,
-   remembered on the device. The hash is SHA-256 of the code.
+   A four-digit code from the invitation, remembered on the device. The hash is SHA-256
+   of the code. This is a courtesy curtain, not security: the page is delivered before the
+   gate and a four-digit code is guessable. Keeping the site out of search engines is done
+   by robots.txt and the noindex meta tag. Never write the code itself in this public file.
    While the gate is up, <html class="gated"> (set inline in <head> before first paint)
    keeps the page out of sight and holds the hero intro; it is cleared here on success
    or straight away when no gate is needed. */
 
-const PIN_HASH = "712dca40936b39ce670dc803736fe3735cf99311030a928de039a36f77926230"; // code 1312
+const PIN_HASH = "712dca40936b39ce670dc803736fe3735cf99311030a928de039a36f77926230";
 const PIN_KEY = "mnm-in-key";
 const isGated = () => document.documentElement.classList.contains("gated");
 
@@ -323,7 +325,7 @@ const el = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (c
 const use = (id, x, y, size, extra) => el("use", Object.assign({ href: "#" + id, x: x - size / 2, y, width: size, height: size }, extra || {}));
 const pick = (i, a, b) => a + ((i * 37) % 5) * ((b - a) / 4); // deterministic spread per index
 
-/* a hanging jasmine strand: thread + alternating jasmine and marigold beads, a jasmine at the tip */
+/* a hanging jasmine strand: thread + alternating jasmine and saffron beads, a jasmine at the tip */
 function strand(g, len, scale) {
   g.appendChild(el("line", { x1: 0, y1: 0, x2: 0, y2: len, stroke: "#b8963f", "stroke-width": 0.8 }));
   const stepY = 9 * scale;
@@ -398,6 +400,8 @@ function drawStrands(svg) {
     lastKey = key;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
     svg.innerHTML = "";
+    // Lane count follows the SVG width set in CSS (.strands): 130px on wide screens gives three
+    // lanes; the 64px and 52px corner versions get one. Change both together.
     const lanes = W >= 100 ? [[26, 0.58], [62, 0.9], [100, 0.72]] : [[W * 0.42, 0.95]];
     lanes.forEach(([x, f], j) => {
       const len = H * f;
