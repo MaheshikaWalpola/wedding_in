@@ -1,38 +1,29 @@
 /**
  * Maheshika & Moksha — INDIAN Wedding Site Backend (Google Apps Script)
  * ==============================================================
- * Built for the "Wedding" planner spreadsheet. It reads guests from the
- * existing "Guest List & RSVP" tab and serves three things:
- *   GET  ?action=seat&name=<name>   -> one guest's table (seat finder)
- *   GET  ?action=invite&g=<guestid> -> one guest's name (personalized invite)
- *   POST <JSON body>                -> appends a row to "RSVP Responses"
+ * Bound to the "Wedding Planner India" spreadsheet. The Indian site only
+ * uses the guest-photo half of this file:
+ *   GET  ?action=photos             -> the album (photos marked Show = yes)
+ *   POST {action:"photo", ...}      -> saves one photo to the Drive folder
+ *                                      and logs it in the "Guest Photos" tab
  *
- * The full guest list never leaves the Sheet — every request returns
- * at most one guest.
+ * The seat finder, personalised invites and RSVP handlers below are kept so
+ * this file stays a copy of the Sri Lankan backend (see ../../CLAUDE.md:
+ * only this header, SITE_URL and PHOTOS_FOLDER_NAME differ). The Indian
+ * site never calls them and has no guest list.
  *
- * SETUP:
- *   1. In the (converted, native Google) spreadsheet:
- *      Extensions -> Apps Script, paste this file, save.
- *   2. Run setupWebsite() once (accept the permission prompts). It:
- *        - adds "Table", "GuestID" and "Seat Note" columns to the
- *          Guest List & RSVP tab (only if missing),
- *        - generates a unique GuestID for every guest that lacks one
- *          (these become the personalized links: ?g=<GuestID>),
- *        - creates the "RSVP Responses" tab for website submissions.
- *      It never changes your existing columns or rows.
- *   3. Deploy -> New deployment -> Web app:
- *        Execute as: Me    |    Who has access: Anyone
- *   4. Copy the web app URL into js/config.js (SCRIPT_URL) and set
- *      DEMO_MODE to false.
+ * DEPLOY / REDEPLOY:
+ *   1. Open the sheet: Extensions -> Apps Script, paste this file, save.
+ *   2. First time: Deploy -> New deployment -> Web app,
+ *      Execute as: Me | Who has access: Anyone. Copy the /exec URL into
+ *      Website/js/config.js as PHOTO_UPLOAD_URL and push.
+ *   3. Every later change: Deploy -> Manage deployments -> Edit ->
+ *      Version: New version -> Deploy. Saving alone does not go live.
  *
  * AFTERWARDS:
- *   - Fill in the "Table" column as you finalise seating; until a guest
- *     has a table, the seat finder shows them a friendly "not assigned
- *     yet" message.
- *   - "Seat Note" is an optional per-guest message shown under the
- *     table number.
- *   - Website RSVPs land in "RSVP Responses"; your own RSVP/Meal
- *     columns in the guest list are yours to update as you confirm.
+ *   - Photos land in the Drive folder named in PHOTOS_FOLDER_NAME.
+ *   - To hide a photo from the album, set its "Show" cell to no.
+ *   - Nothing on the website can delete or edit a photo.
  */
 
 // The guest tab is matched loosely (any tab whose name contains "guest

@@ -1,30 +1,31 @@
 # Maheshika & Moksha — Tirupati wedding website
 
-A single-page, information-only site for the Indian celebrations. Auto-deploys from GitHub on every push to main; v1 and v2 are kept as tags and branches for easy rollback. No RSVP,
-no backend: plain HTML, CSS and JavaScript, hosted on Cloudflare Pages.
+A one-page guest site for the Indian celebrations, plus a photos page where
+guests add their own pictures. Plain HTML, CSS and JavaScript, no build step,
+hosted on Cloudflare Pages. Every push to `main` goes live within a minute.
 
 **Live:** https://maheshika-moksha-in.pages.dev · **Code:** github.com/MaheshikaWalpola/wedding_in
-**Sister site (Sri Lanka):** https://maheshika-moksha.pages.dev — linked from the fixed 🇱🇰 button.
+**Sister site (Sri Lanka):** https://maheshika-moksha.pages.dev — linked from the fixed 🇱🇰 pill.
 
 | Date | Event | Who |
 |---|---|---|
-| Thu 10 Dec 2026 | Mehendi & Haldi, Tirupati | close family |
-| Fri 11 Dec 2026 | Wedding — Subha Muhurtham 9:00–10:30 AM, T.T.D. Cottage, Shankumitta, Tirumala | close family |
-| Sun 13 Dec 2026 | Reception & Dinner from 5 PM, S.R. Convention Hall, Old Tiruchanoor Road, Tirupati | everyone, RSVP by 15 Oct via WhatsApp |
+| Thu 10 Dec 2026 | Mehendi & Haldi, 10 AM to 6 PM, Tirupati | close family & friends |
+| Fri 11 Dec 2026 | Wedding, Subha Muhurtham, T.T.D, Tirumala | close family & friends |
+| Sun 13 Dec 2026 | Reception & Dinner from 5 PM, S.R. Convention Hall, Old Tiruchanoor Road | everyone, RSVP by 15 Oct 2026 on WhatsApp |
 
 ## Files
 
 ```
-index.html          the whole site — every section is marked with a banner comment
-css/styles.css      design system at the top (colour, type, radius, shadow, motion), then one block per section
-js/main.js          PIN gate, nav, text reveals, countdown, language tabs, garland, parallax, tilt, petals
-assets/wedding.ics  the "Add to calendar" file (reception, 5–11 PM IST)
-images/             couple photos + the MM logo set copied from ../Branding
-apps-script/Code.gs the guest-photo upload backend (Google Apps Script). Deploy it once, paste the URL in js/config.js
-js/config.js        PHOTO_UPLOAD_URL: the deployed Apps Script web-app URL (empty = uploads say "open soon")
-photos.html         the album page: big upload panel + the wall of guest photos (upload only, nothing can delete)
-js/photos.js        upload + album loader for photos.html
-robots.txt          asks search engines not to index
+index.html            the whole site; every section starts with a banner comment
+photos.html           the album page: upload panel + the wall of guest photos (upload only, nothing can delete)
+css/styles.css        design tokens at the top (colour, type, radius, shadow, motion), then one block per section
+js/main.js            PIN gate, nav, text reveals, countdown, language tabs, garlands, parallax, tilt, petals
+js/photos.js          upload (shrinks photos in the browser) + album loader + save-to-phone button
+js/config.js          PHOTO_UPLOAD_URL: the deployed Apps Script web-app URL
+apps-script/Code.gs   the backend that receives uploads and lists the album (Google Apps Script)
+assets/*.ics          "Add to calendar" files: mehendi-haldi, wedding-ceremony, wedding (reception)
+images/               couple photos and the temple sketch in blue and gold
+robots.txt            asks search engines not to index
 ```
 
 ## Run it locally
@@ -35,38 +36,39 @@ python3 -m http.server 8789
 
 Open http://localhost:8789. The PIN is **1312**; the device remembers it.
 
-## Things you will want to change
+## Things you may want to change
 
-- **Photos** — the two "photo coming soon" arches in *The Couple* and the six in
-  *Gallery* are placeholders. Drop images into `images/` and replace each
-  `<div class="arch ph …">` with `<div class="arch"><img src="images/…" alt="…"></div>`.
-- **Reception time** — appears in four places: `index.html` (invitation card
-  and the 13 Dec scene), `js/main.js` (countdown target), `assets/wedding.ics`.
-  The printed invitation says 7 PM; the site currently says 5 PM.
-- **Telugu text** — the invitation's Telugu tab was transcribed from the
-  printed card. Have someone in the family read it once.
-- **Palette** — v3 (5 Sep 2026): ivory, royal blue, champagne gold, a touch of saffron. Bodoni Moda + Manrope + Noto Serif Telugu (5 Sep 2026, evening pass).
+- **Words and names** — everything is in `index.html`. Search for the text you
+  see on the page and edit it there.
+- **Reception time** — appears in four places: the invitation card and the
+  13 Dec card in `index.html`, the countdown target in `js/main.js`, and
+  `assets/wedding.ics`. The printed card says 7 PM; the site says 5 PM.
+- **RSVP message** — the prefilled WhatsApp text is in the RSVP links in
+  `index.html` (hero button, reception panel, quick actions).
+- **Telugu text** — transcribed from the printed card. Have someone in the
+  family read it once.
+- **Palette** — v3 (5 Sep 2026): ivory, royal blue, champagne gold, a touch of
+  saffron. Playfair Display + Manrope + Noto Serif Telugu.
 - **PIN** — change `PIN_HASH` in `js/main.js` to the SHA-256 of the new code:
   `printf '1234' | shasum -a 256`.
 
 ## Deploy
 
-Push to `main`. Cloudflare Pages rebuilds the live site within a minute. There
-is no build step — framework preset *None*, output directory `/`.
+Push to `main`. Cloudflare Pages rebuilds the live site within a minute.
+Framework preset *None*, output directory `/`. Tags `v1`, `v2`, `v3` are
+earlier designs; `git checkout v3 -- . && git commit` rolls back.
 
-## Switching on guest photo uploads (one-time, about five minutes)
+## Guest photos
 
-1. Go to https://sheets.new and name the sheet **Wedding Planner — India**.
-2. In the sheet: **Extensions → Apps Script**. Delete whatever is in the editor,
-   paste the whole of `apps-script/Code.gs`, and save (Ctrl/Cmd + S).
-3. **Deploy → New deployment → gear icon → Web app.**
-   Execute as: **Me**. Who has access: **Anyone**. Click **Deploy**.
-   Google will ask you to authorise the script once (Review permissions → your
-   account → Advanced → Go to project → Allow).
-4. Copy the **Web app URL** (ends in `/exec`) and send it to Claude, or paste it
-   into `js/config.js` as `PHOTO_UPLOAD_URL` and push.
+Uploads are live (since 6 Sep 2026). Photos go to the Drive folder
+**Indian Wedding Guest Photos** and every upload is listed in the
+**Guest Photos** tab of the sheet *Wedding Planner India*. To hide a photo from
+the album, set its **Show** cell to `no`. Guests can only add photos; nothing
+on the site can edit or delete them. The save button on each album tile opens
+the share sheet on phones (Save Image goes to the camera roll) and downloads a
+file on computers.
 
-Photos land in a Drive folder called **Indian Wedding Guest Photos** (created
-automatically on the first upload) and every upload is listed in the sheet's
-**Guest Photos** tab. Guests can only add photos; nothing on the site can list,
-edit or delete what is in the folder.
+If the backend ever needs redeploying: open the sheet, **Extensions → Apps
+Script**, paste `apps-script/Code.gs`, save, then **Deploy → Manage deployments
+→ Edit → Version: New version → Deploy**. Saving alone does not update the live
+web app. If the URL changes, put the new one in `js/config.js` and push.

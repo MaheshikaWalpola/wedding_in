@@ -316,19 +316,6 @@ ul.plain li:last-child { border-bottom: 0; }
 /* ============================================================ COUPLE */
 .couple { background: var(--cream); }
 .people { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); margin-top: 3rem; }
-.person { text-align: center; }
-.portrait { width: min(100%, 300px); aspect-ratio: 3 / 4; margin: 0 auto 1.6rem; border-radius: var(--r-card); overflow: visible; box-shadow: 14px 14px 0 -1px var(--cream), 14px 14px 0 0 var(--gold); position: relative; }
-.portrait img { width: 100%; height: 100%; object-fit: cover; } /* for when the portraits arrive */
-.ph { display: grid; place-items: center; background: linear-gradient(160deg, var(--paper), var(--cream)); border: 1px solid var(--gold-line); color: var(--ink-mute); }
-.person:nth-child(2) .ph { background: linear-gradient(200deg, var(--paper), var(--cream)); } /* the light falls from the other side */
-.ph-mono { font-family: var(--serif); font-weight: 300; font-style: italic; font-size: 3.4rem; color: var(--gold-deep); line-height: 1; font-variation-settings: var(--opsz-display); }
-.ph-mono i { font-style: italic; font-size: .6em; color: var(--gold-deep); opacity: .85; }
-.ph-note { font-family: var(--sans); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; margin-top: .4rem; }
-.person-role { font-family: var(--sans); font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-deep); font-weight: 600; margin-bottom: .5rem; display: flex; justify-content: center; align-items: center; }
-.person-role .te { text-transform: none; letter-spacing: 0; font-size: .95rem; color: var(--royal); }
-.person h3 { font-size: 1.5rem; }
-.person-from { font-family: var(--serif); font-style: italic; color: var(--royal); margin: .3rem 0 1rem; }
-.person p:last-child { color: var(--ink-soft); max-width: 380px; margin: 0 auto; }
 .couple-home { text-align: center; font-family: var(--serif); font-weight: 300; font-size: 1.35rem; color: var(--ink); max-width: 640px; margin: 3.5rem auto 0; text-wrap: balance; }
 .couple-home strong { font-weight: 400; color: var(--royal); }
 @media (max-width: 760px) { .people { grid-template-columns: 1fr; } }
@@ -378,8 +365,6 @@ ul.plain li:last-child { border-bottom: 0; }
 .scene-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.2rem; }
 .tag { display: inline-block; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; padding: .32rem .8rem; border-radius: 999px; border: 1px solid rgba(185,198,239,.5); color: #b9c6ef; }
 .tag-gold { border-color: var(--champagne); color: var(--champagne); background: rgba(212,185,120,.1); }
-.map { margin-top: 2.5rem; border-radius: var(--r-card); overflow: hidden; border: 1px solid rgba(212,185,120,.35); box-shadow: var(--sh-deep); }
-.map iframe { display: block; width: 100%; height: 360px; border: 0; filter: saturate(.85); }
 .scene.reveal .scene-date b { opacity: 0; transform: translateY(14px); transition: opacity var(--t-slow) var(--ease) var(--t-fast), transform var(--t-slow) var(--ease) var(--t-fast); }
 .scene.reveal.in .scene-date b { opacity: 1; transform: none; }
 @media (max-width: 640px) {
@@ -433,10 +418,7 @@ ul.hotels small, .contact small { font-size: .82rem; color: var(--ink-mute); let
 .gal img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-slow) var(--ease); }
 .gal:hover img { transform: scale(1.04); }
 .gal-grid .gal:nth-child(3n+2) { transform: translateY(1.6rem); }
-.gal .ph-mono { font-size: 2.6rem; }
 /* until the photos arrive the frames are not six copies: the light shifts, and the lifted tiles carry the lotus instead of the monogram */
-.gal:nth-child(3n+2).ph { background: linear-gradient(160deg, var(--paper), var(--royal-mist)); }
-.gal:nth-child(3n+3).ph { background: linear-gradient(340deg, var(--paper), var(--cream)); }
 .gal .orn { margin: 0; width: 96px; }
 @media (max-width: 700px) { .gal-grid { grid-template-columns: repeat(2, 1fr); gap: .9rem; } .gal-grid .gal:nth-child(3n+2) { transform: none; } .gal-grid .gal:nth-child(even) { transform: translateY(1.2rem); } }
 
@@ -560,12 +542,11 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
   .scene { padding: 1.3rem 1.1rem; }
   .scene h3 { font-size: 1.4rem; }
   .scene-actions { flex-direction: column; align-items: stretch; }
-  .map iframe { height: 260px; }
   .contact { max-width: none; }
   .sl-text { display: none; } .sl-short { display: inline; }
   /* body-sized copy never drops below 16px on phones */
   .small, .cd-label, .inv-bless, .inv-grid p, .te-pane .inv-hosts small, .te-pane .inv-line small, .scene h3 small, .ritual p,
-  ul.hotels small, .contact small, .closing-with, .foot a, .lang-tabs button[lang="te"], .person-role .te { font-size: 1rem; }
+  ul.hotels small, .contact small, .closing-with, .foot a, .lang-tabs button[lang="te"] { font-size: 1rem; }
 }
 
 /* ============================================================ GARLANDS, ORDINALS, INVITATION TITLE (v3.1)
@@ -618,20 +599,17 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 }
 @media (max-width: 560px) { .strands { width: 52px; height: min(30vh, 240px); } }
 
-/* the arch is gone: every photo is a soft-cornered frame with an offset gold hairline */
-.portrait { overflow: hidden; }
-.portrait.ph { overflow: visible; }
+/* every photo is a soft-cornered frame with an offset gold hairline */
 .gal { box-shadow: 12px 12px 0 -1px var(--cream), 12px 12px 0 0 var(--gold-line); }
 @media (max-width: 560px) {
   .hero-photo::before { inset: -12px 12px 12px -12px; }
   .hero-photo::after { inset: 12px -12px -12px 12px; }
-  .portrait, .gal { box-shadow: 10px 10px 0 -1px var(--cream), 10px 10px 0 0 var(--gold-line); }
+  .gal { box-shadow: 10px 10px 0 -1px var(--cream), 10px 10px 0 0 var(--gold-line); }
 }
 .celebrations .lede { max-width: 740px; }
 
 /* ============================================================ GUEST PHOTO UPLOAD */
 .upload-panel { margin-top: 3.2rem; text-align: center; background: var(--paper); border: 1px solid var(--gold-line); border-radius: var(--r-card); padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.2rem, 4vw, 2.6rem); box-shadow: var(--sh-1); }
-.upload-kicker { font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: .5rem; }
 .upload-panel h3 { font-size: 1.6rem; color: var(--royal); margin-bottom: .5rem; }
 .upload-text { color: var(--ink-soft); max-width: 520px; margin: 0 auto 1.4rem; }
 .upload-form { display: flex; gap: .7rem; justify-content: center; align-items: stretch; flex-wrap: wrap; }
@@ -650,16 +628,10 @@ html.gated .img-reveal img { transform: scale(1.08); transition: none; }
 .couple-photo .img-reveal img { aspect-ratio: 4 / 5; }
 .couple-photo::after { content: ""; position: absolute; inset: 16px -16px -16px 16px; border: 1px solid rgba(212,185,120,.8); border-radius: var(--r-card); pointer-events: none; z-index: -1; }
 .couple-names { display: grid; gap: 2.2rem; }
-.couple-names .person { text-align: left; }
-.couple-names .person-role { justify-content: flex-start; }
 .couple-names h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); }
-.couple-names .person-from { margin: .3rem 0 0; }
-.couple-names .person + .person { padding-top: 2.2rem; border-top: 1px solid var(--gold-line); }
 @media (max-width: 760px) {
   .couple-layout { grid-template-columns: 1fr; gap: 2.2rem; }
   .couple-photo { width: min(100%, 360px); margin: 0 auto; }
-  .couple-names .person { text-align: center; }
-  .couple-names .person-role { justify-content: center; }
 }
 
 /* ============================================================ QUICK ACTIONS (phones) + PHOTOS PAGE */
