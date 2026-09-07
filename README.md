@@ -23,7 +23,7 @@ js/main.js            PIN gate, nav, text reveals, countdown, language tabs, gar
 js/photos.js          upload (shrinks photos in the browser) + album loader + save-to-phone button
 js/config.js          PHOTO_UPLOAD_URL: the deployed Apps Script web-app URL
 apps-script/Code.gs   the backend that receives uploads and lists the album (Google Apps Script)
-assets/*.ics          "Add to calendar" files: mehendi-haldi, wedding-ceremony, wedding (reception)
+assets/*.ics          "Add to calendar" files: mehendi-haldi, wedding-ceremony, reception
 images/               couple photos and the temple sketch in blue and gold
 robots.txt            asks search engines not to index
 ```
@@ -43,7 +43,7 @@ which is not published). The device remembers it.
   see on the page and edit it there.
 - **Reception time** — appears in four places: the invitation card and the
   13 Dec card in `index.html`, the countdown target in `js/main.js`, and
-  `assets/wedding.ics`. The printed card says 7 PM; the site says 5 PM.
+  `assets/reception.ics`. The printed card says 7 PM; the site says 5 PM.
 - **RSVP message** — the prefilled WhatsApp text is in the RSVP links in
   `index.html` (hero button, reception panel, quick actions).
 - **Telugu text** — transcribed from the printed card. Have someone in the
