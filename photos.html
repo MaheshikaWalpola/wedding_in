@@ -10,7 +10,8 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231c3fa0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='%23d4b978'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;600&family=Noto+Serif+Telugu:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- same font list as index.html; keep the two in step -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Manrope:wght@300;400;600&family=Noto+Serif+Telugu:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <!-- Before first paint: same PIN gate as index.html. If this device has not entered the code yet,
        hold the page until main.js shows the gate. Cleared by main.js, or if main.js fails to load. -->
@@ -44,7 +45,8 @@
 
   <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <header class="nav solid" id="nav">
+  <!-- main.js adds "solid" once the page scrolls, exactly as on index.html -->
+  <header class="nav" id="nav">
     <a class="brand" href="index.html" aria-label="Back to the main page">
       <span class="brand-mark">M<i>&amp;</i>M</span>
     </a>
@@ -104,8 +106,9 @@
   </section>
   </main>
 
+  <!-- phone bottom bar: RSVP opens WhatsApp directly, the same as the desktop pill above -->
   <nav class="quick-bar" aria-label="Quick actions">
-    <a href="index.html#rsvp"><svg class="ic" aria-hidden="true"><use href="#ic-chat"/></svg><span>RSVP</span></a>
+    <a href="https://wa.me/4917676514369?text=Hi%20Moksha%21%20This%20is%20___.%0AHere%20is%20our%20RSVP%20for%20Tirupati%3A%0A10th%20Dec%2C%20Mehendi%20%26%20Haldi%3A%20Yes%0A11th%20Dec%2C%20Wedding%3A%20Yes%0A13th%20Dec%2C%20Reception%3A%20Yes%0AWe%20will%20be%20___%20guests.%0ASee%20you%20in%20December%21" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#ic-chat"/></svg><span>RSVP</span></a>
     <a href="photos.html" class="on"><svg class="ic" aria-hidden="true"><use href="#ic-camera"/></svg><span>Add photos</span></a>
     <a href="https://maheshika-moksha.pages.dev" target="_blank" rel="noopener"><span class="sl-flag" aria-hidden="true">🇱🇰</span><span>Sri Lanka</span></a>
   </nav>

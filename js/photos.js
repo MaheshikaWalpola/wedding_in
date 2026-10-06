@@ -35,7 +35,7 @@ function setupUpload() {
     let sent = 0;
     try {
       for (const file of files) {
-        say(`Sending ${sent + 1} of ${files.length}…`, "busy");
+        say(`Sending ${sent + 1} of ${files.length}…`, "muted");
         const { base64, dataUrl } = await shrink(file);
         // No Content-Type header on purpose: that keeps this a "simple" cross-origin request,
         // so the browser skips the preflight that Apps Script cannot answer.

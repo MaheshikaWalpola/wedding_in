@@ -5,12 +5,12 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 UID:mnm-mehendi-haldi-20261210@maheshika-moksha-in.pages.dev
-DTSTAMP:20260906T000000Z
+DTSTAMP:20261006T000000Z
 DTSTART;TZID=Asia/Kolkata:20261210T100000
 DTEND;TZID=Asia/Kolkata:20261210T180000
 SUMMARY:Maheshika & Moksha · Mehendi & Haldi
-LOCATION:Tirupati\, Andhra Pradesh\, India
-DESCRIPTION:Mehendi and Haldi with close family and friends\, 10 AM to 6 PM.\nAll details: https://maheshika-moksha-in.pages.dev
+LOCATION:The Farmhouse Tirupati\, D. No. 1-54\, Mamanduru Village\, Ithepalli Post\, Tirupati\, Andhra Pradesh 517102
+DESCRIPTION:Mehendi and Haldi with close family and friends\, 10 AM to 6 PM\, at The Farmhouse Tirupati (https://thefarmhousetirupati.com).\nAll details: https://maheshika-moksha-in.pages.dev
 URL:https://maheshika-moksha-in.pages.dev
 BEGIN:VALARM
 TRIGGER:-P1D

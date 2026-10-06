@@ -174,10 +174,10 @@ function setupNav() {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(true); });
 
   // the fixed quick-action pills step aside while the contact cards are on screen
-  const sl = document.querySelector(".pills");
+  const pills = document.querySelector(".pills");
   const contact = document.querySelector(".contact");
-  if (sl && contact && "IntersectionObserver" in window) {
-    new IntersectionObserver((en) => sl.classList.toggle("hide", en[0].isIntersecting)).observe(contact);
+  if (pills && contact && "IntersectionObserver" in window) {
+    new IntersectionObserver((en) => pills.classList.toggle("hide", en[0].isIntersecting)).observe(contact);
   }
 }
 
