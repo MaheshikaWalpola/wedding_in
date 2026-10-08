@@ -10,8 +10,24 @@ const configured = () => typeof PHOTO_UPLOAD_URL === "string" && PHOTO_UPLOAD_UR
 
 document.addEventListener("DOMContentLoaded", () => {
   setupUpload();
-  loadWall();
+  // The album needs the site code, so behind the gate it waits for the code to be accepted.
+  if (document.documentElement.classList.contains("gated")) document.addEventListener("mnm:unlock", loadWall, { once: true });
+  else loadWall();
 });
+
+/* Reads a backend answer. If the backend says the remembered code is wrong (it was changed
+   after this device saved it), the code is dropped and the page reloads once so the gate
+   shows again instead of the album failing quietly. siteKey/forgetKey live in main.js. */
+async function answer(res) {
+  const out = await res.json();
+  if (out && out.auth === false && out.wrong && siteKey()) {
+    forgetKey();
+    try {
+      if (!sessionStorage.getItem("mnm-regate")) { sessionStorage.setItem("mnm-regate", "1"); location.reload(); }
+    } catch (e) {}
+  }
+  return out;
+}
 
 function setupUpload() {
   const form = document.getElementById("upload-form");
@@ -41,9 +57,9 @@ function setupUpload() {
         // so the browser skips the preflight that Apps Script cannot answer.
         const res = await fetch(PHOTO_UPLOAD_URL, {
           method: "POST",
-          body: JSON.stringify({ action: "photo", name: (nameInput.value || "").trim(), filename: file.name.replace(/\.[^.]+$/, "") + ".jpg", mimeType: "image/jpeg", data: base64 }),
+          body: JSON.stringify({ action: "photo", key: siteKey(), name: (nameInput.value || "").trim(), filename: file.name.replace(/\.[^.]+$/, "") + ".jpg", mimeType: "image/jpeg", data: base64 }),
         });
-        const out = await res.json();
+        const out = await answer(res);
         if (!out.ok) throw new Error(out.error || "rejected");
         addTile(dataUrl, (nameInput.value || "").trim() || "You", true);
         sent++;
@@ -63,8 +79,8 @@ async function loadWall() {
   const note = document.getElementById("wall-note");
   if (!configured()) { note.textContent = "The album opens together with the uploads."; return; }
   try {
-    const res = await fetch(`${PHOTO_UPLOAD_URL}?action=photos`);
-    const out = await res.json();
+    const res = await fetch(`${PHOTO_UPLOAD_URL}?action=photos&key=${encodeURIComponent(siteKey())}`);
+    const out = await answer(res);
     (out.photos || []).forEach((p) => addTile(p.url, p.by, false));
   } catch (e) {
     note.textContent = "The album could not load just now. Please try again in a moment.";

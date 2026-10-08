@@ -50,8 +50,9 @@ which is not published). The device remembers it.
   family read it once.
 - **Palette** — v3 (5 Sep 2026): ivory, royal blue, champagne gold, a touch of
   saffron. Playfair Display + Manrope + Noto Serif Telugu.
-- **PIN** — change `PIN_HASH` in `js/main.js` to the SHA-256 of the new code:
-  `printf '1234' | shasum -a 256`.
+- **PIN** — edit the `SITE_PIN` Script Property in the Apps Script editor
+  (Project Settings → Script properties). The backend checks the code and the
+  photos page sends it with every request; no site file holds it.
 
 ## Deploy
 

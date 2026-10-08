@@ -28,28 +28,45 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ---------- PIN gate ----------
-   A four-digit code from the invitation, remembered on the device. The hash is SHA-256
-   of the code. This is a courtesy curtain, not security: the page is delivered before the
-   gate and a four-digit code is guessable. Keeping the site out of search engines is done
-   by robots.txt and the noindex meta tag. Never write the code itself in this public file.
+   A four-digit code from the invitation, checked by the backend (since 8 Oct 2026) and
+   remembered on the device. The code lives in a Script Property of the Apps Script
+   (PHOTO_UPLOAD_URL in config.js, loaded before this file), never in a file of this site;
+   verifyKey asks the backend, and photos.js sends the remembered code with the album and
+   every upload, so the backend answers only to the right code. The backend refuses every
+   code for a minute after ten wrong ones. This is still a curtain over a wedding page, not
+   a vault: the page itself is public. Keeping the site out of search engines is done by
+   robots.txt and the noindex meta tag.
    While the gate is up, <html class="gated"> (set inline in <head> before first paint)
    keeps the page out of sight and holds the hero intro; it is cleared here on success
    or straight away when no gate is needed. */
 
-const PIN_HASH = "712dca40936b39ce670dc803736fe3735cf99311030a928de039a36f77926230";
 const PIN_KEY = "mnm-in-key";
+const KEY_SHAPE = /^\d{4}$/; // the old "1" flag from before October 2026 is not a key
+let memoryKey = ""; // so a device whose storage is unavailable still works for this visit
 const isGated = () => document.documentElement.classList.contains("gated");
+
+function siteKey() {
+  if (memoryKey) return memoryKey;
+  try { const k = localStorage.getItem(PIN_KEY) || ""; return KEY_SHAPE.test(k) ? k : ""; } catch (e) { return ""; }
+}
+function rememberKey(k) {
+  memoryKey = k;
+  try { localStorage.setItem(PIN_KEY, k); } catch (e) {}
+}
+function forgetKey() {
+  memoryKey = "";
+  try { localStorage.removeItem(PIN_KEY); } catch (e) {}
+}
+async function verifyKey(code) {
+  const res = await fetch(`${PHOTO_UPLOAD_URL}?action=verify&key=${encodeURIComponent(code)}`);
+  if (!res.ok) throw new Error(`Code check failed (${res.status})`);
+  return res.json();
+}
 
 function setupPinGate() {
   const root = document.documentElement;
   const ungate = () => root.classList.remove("gated");
-  let unlocked = false;
-  try {
-    unlocked = localStorage.getItem(PIN_KEY) === "1";
-  } catch (e) {
-    ungate(); return; // storage unavailable: never lock a guest out
-  }
-  if (unlocked || !window.crypto || !crypto.subtle) { ungate(); return; }
+  if (siteKey()) { ungate(); return; }
   root.classList.add("gated"); // normally already set by the inline snippet in <head>
 
   const gate = document.createElement("div");
@@ -70,30 +87,45 @@ function setupPinGate() {
   const input = gate.querySelector(".pin-input");
   const box = gate.querySelector(".pin-box");
   const err = gate.querySelector(".pin-err");
-
-  async function sha256(text) {
-    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
-  }
+  let checking = false;
 
   input.addEventListener("input", async () => {
+    if (checking) return;
     err.textContent = "";
     const v = input.value.replace(/\D/g, "");
     input.value = v;
     if (v.length !== 4) return;
-    if ((await sha256(v)) === PIN_HASH) {
-      try { localStorage.setItem(PIN_KEY, "1"); } catch (e) {}
+
+    checking = true;
+    box.classList.add("busy");
+    err.textContent = "Checking…";
+    let res;
+    try { res = await verifyKey(v); } catch (e) { res = { ok: false, offline: true }; }
+    checking = false;
+    box.classList.remove("busy");
+
+    if (res && res.ok) {
+      rememberKey(v);
       gate.classList.add("open");
       document.body.classList.remove("no-scroll");
       ungate(); // the hero intro starts while the gate fades out
       document.dispatchEvent(new Event("mnm:unlock"));
       setTimeout(() => gate.remove(), T_BASE);
+      return;
+    }
+    input.value = "";
+    if (res && res.slow) {
+      err.textContent = "Too many tries just now. Please wait a minute and try again.";
+    } else if (res && res.offline) {
+      err.textContent = "We could not check the code just now. Please try again in a moment.";
+    } else if (res && res.error) {
+      err.textContent = res.error;
     } else {
-      input.value = "";
       box.classList.add("shake");
       err.textContent = "That's not it. Try the code on your invitation";
       setTimeout(() => box.classList.remove("shake"), T_BASE);
     }
+    input.focus();
   });
   setTimeout(() => input.focus(), 100);
 }

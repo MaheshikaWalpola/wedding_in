@@ -22,7 +22,8 @@
   <link rel="stylesheet" href="css/styles.css">
   <!-- Before first paint: if this device has not entered the code yet, hold the page (and the hero intro)
        behind the PIN gate that main.js builds. Cleared by main.js, or if main.js fails to load. -->
-  <script>try{if(localStorage.getItem("mnm-in-key")!=="1"&&window.crypto&&crypto.subtle)document.documentElement.classList.add("gated")}catch(e){}</script>
+  <script>try{if(!/^\d{4}$/.test(localStorage.getItem("mnm-in-key")||""))document.documentElement.classList.add("gated")}catch(e){}</script>
+  <script src="js/config.js" defer></script>
   <script src="js/main.js" defer onerror="document.documentElement.classList.remove('gated')"></script>
 </head>
 <body>
