@@ -226,7 +226,6 @@ function doPost(e) {
       attending,
       guests,
       String(data.message || '').slice(0, 2000),
-      String(data.song || '').slice(0, 200), // kept for older forms; the current site sends nothing here
     ]);
 
     return jsonResponse({ ok: true });
@@ -372,7 +371,7 @@ function getOrCreateRsvpSheet() {
   var sheet = ss.getSheetByName(RSVP_TAB);
   if (!sheet) {
     sheet = ss.insertSheet(RSVP_TAB);
-    sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message', 'Song']);
+    sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Message']);
     sheet.getRange('1:1').setFontWeight('bold');
   }
   return sheet;
